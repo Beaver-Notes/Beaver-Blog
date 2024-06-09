@@ -1,11 +1,8 @@
 # Site settings
 title:          Beaver Blog
 description:    "Minimal Jekyll theme for storytellers"
-baseurl:        ""
+baseurl:        "/beaver-blog"
 url:            "https://chesterhow.github.io"
-
-# Google Analytics
-google_analytics: UA—XXXXXXXX-X
 
 # Author
 author:
@@ -39,3 +36,13 @@ exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
 
 # Disqus (Set to your disqus id)
 disqus:         jekyll-tale
+
+# Site Deployment
+remote_theme: chesterhow/tale
+
+permalink:    /:year-:month-:day/:title
+paginate:     5
+
+plugins:
+  - jekyll-paginate
+  - jekyll-remote-theme
