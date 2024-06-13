@@ -30,7 +30,7 @@ Beaver Notes has matured significantly since version 2.x. Thanks to the communit
 
 ### What's Coming in Version 3.3.0
 
-**Beaver Notes 3.3.0** will feature an improved command block with an option to copy the content of a code block and a new mermaid block that allows users to create pie charts, sequence diagrams, flowcharts, and more. Our major breakthrough, however, is integrations. Third-party apps will be able to create and delete notes and labels. These apps will need to ask permission from the user, who will decide what the app can access and will be able to revoke or disable access at any time.
+**Beaver Notes 3.3.0** will feature an improved code block with an option to copy the content of the block and a new mermaid block that allows users to create pie charts, sequence diagrams, flowcharts, and more. Our major breakthrough, however, is integrations. Third-party apps will be able to create and delete notes and labels. These apps will need to ask permission from the user, who will decide what the app can access and will be able to revoke or disable access at any time.
 
 ### A Playground for Devs
 
