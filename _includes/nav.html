@@ -158,49 +158,64 @@
       <li></li>
     </ul>
   </div>
- <script>
-   // Function to toggle dark mode
-   function toggleDarkMode() {
-     const html = document.documentElement;
-     const icon = document.getElementById("dark-mode-icon");
- 
-     if (html.classList.contains("dark")) {
-       html.classList.remove("dark");
-       icon.classList.remove("fa-sun");
-       icon.classList.add("fa-moon");
-       localStorage.setItem("theme", "light"); // Save preference
-     } else {
-       html.classList.add("dark");
-       icon.classList.remove("fa-moon");
-       icon.classList.add("fa-sun");
-       localStorage.setItem("theme", "dark"); // Save preference
-     }
-   }
- 
-   // Apply saved dark mode preference on page load
-   document.addEventListener("DOMContentLoaded", () => {
-     const html = document.documentElement;
-     const icon = document.getElementById("dark-mode-icon");
-     const savedTheme = localStorage.getItem("theme");
- 
-     if (savedTheme === "dark") {
-       html.classList.add("dark");
-       icon.classList.add("fa-sun");
-       icon.classList.remove("fa-moon");
-     } else {
-       html.classList.remove("dark");
-       icon.classList.add("fa-moon");
-       icon.classList.remove("fa-sun");
-     }
-   });
- 
-   function openSearch() {
-     const searchContainer = document.getElementById("search-container");
-     if (searchContainer) {
-       searchContainer.classList.remove("hidden");
-     } else {
-       console.error("Search container not found");
-     }
-   }
- </script>
+  <script>
+    // Function to toggle dark mode
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const icon = document.getElementById("dark-mode-icon");
+  
+      if (html.classList.contains("dark")) {
+        html.classList.remove("dark");
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+        localStorage.setItem("theme", "light"); // Save preference
+      } else {
+        html.classList.add("dark");
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+        localStorage.setItem("theme", "dark"); // Save preference
+      }
+    }
+  
+    // Apply saved dark mode preference or respect system preference on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const html = document.documentElement;
+      const icon = document.getElementById("dark-mode-icon");
+      const savedTheme = localStorage.getItem("theme");
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+      if (savedTheme) {
+        // Apply saved theme preference
+        if (savedTheme === "dark") {
+          html.classList.add("dark");
+          icon.classList.add("fa-sun");
+          icon.classList.remove("fa-moon");
+        } else {
+          html.classList.remove("dark");
+          icon.classList.add("fa-moon");
+          icon.classList.remove("fa-sun");
+        }
+      } else {
+        // Apply system preference
+        if (systemPrefersDark) {
+          html.classList.add("dark");
+          icon.classList.add("fa-sun");
+          icon.classList.remove("fa-moon");
+        } else {
+          html.classList.remove("dark");
+          icon.classList.add("fa-moon");
+          icon.classList.remove("fa-sun");
+        }
+      }
+    });
+  
+    function openSearch() {
+      const searchContainer = document.getElementById("search-container");
+      if (searchContainer) {
+        searchContainer.classList.remove("hidden");
+      } else {
+        console.error("Search container not found");
+      }
+    }
+  </script>  
 </nav>  
