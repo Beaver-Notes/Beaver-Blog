@@ -1,5 +1,3 @@
-# .github/workflows/github-pages.yml
-
 name: Build and deploy this site to GitHub Pages
 
 on:
@@ -7,26 +5,54 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  github-pages:
+  build:
+    name: Build site
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1
           bundler-cache: true
-      - name: Setup Node
+      
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-      - run: npm install
-      - name: Build site
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build the site with Jekyll
         uses: limjh16/jekyll-action-ts@v2
         with:
           enable_cache: true
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: $
-          publish_dir: ./_site
+          path: ./_site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
