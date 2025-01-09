@@ -6,6 +6,7 @@
     <title>{{ site.title }}</title>
     <link href="{{ site.baseurl }}/assets/main.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
     <link
       rel="stylesheet"
@@ -159,40 +160,5 @@
       </section>
     </main>
     {% include footer.html %}
-
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        let page = 2; // Starting page for infinite scrolling
-        const postContainer = document.getElementById('post-container');
-
-        const loadMorePosts = () => {
-          fetch(`{{ site.baseurl }}/page${page}/index.json`)
-            .then((response) => response.json())
-            .then((posts) => {
-              posts.forEach((post) => {
-                const postHTML = `
-                  <a href="${post.url}" class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col space-y-2">
-                    <img src="${post.image}" alt="${post.title}" class="w-full h-auto mb-4 rounded-lg" />
-                    <h3 class="text-xl dark:text-neutral-100 font-bold">${post.title}</h3>
-                    <div class="flex flex-wrap gap-2 py-2">
-                      ${(post.labels || []).map(label => `<p class="text-sm bg-amber-400 text-amber-400 bg-opacity-10 px-2 py-1 rounded-lg">#${label}</p>`).join('')}
-                    </div>
-                    <p class="text-sm dark:text-neutral-100">${post.excerpt}</p>
-                  </a>
-                `;
-                postContainer.insertAdjacentHTML('beforeend', postHTML);
-              });
-              page++;
-            })
-            .catch((err) => console.error('Error loading posts:', err));
-        };
-
-        window.addEventListener('scroll', () => {
-          if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-            loadMorePosts();
-          }
-        });
-      });
-    </script>
   </body>
 </html>
