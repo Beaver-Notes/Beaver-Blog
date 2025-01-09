@@ -1,48 +1,15 @@
-# Site settings
-title:          Beaver Blog
-description:    "Minimal Jekyll theme for storytellers"
-baseurl:        "/beaver-blog"
-url:            "https://chesterhow.github.io"
-
-# Author
-author:
-  name:         Daniele Rolli
-  url:          https://beavernotes.com
-  email:        danielerolli@proton.me
+title: Beaver Blog
 
 # Build settings
-markdown:       kramdown
+markdown: kramdown
 include:
-  - _pages
+  - _post
 
-# Assets
-sass:
-  sass_dir:     _sass
-  style:        compressed
-
-# Gems
 plugins:
   - jekyll-feed
-  - jekyll-paginate
   - jekyll-seo-tag
-  # - jemoji #Uncomment this to allow emoji in your post
+  - jekyll-postcss
+  - jemoji
 
-# Permalinks
-permalink:      /:year-:month-:day/:title
-paginate:       5
-
-# Excludes
-exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
-
-# Disqus (Set to your disqus id)
-disqus:         jekyll-tale
-
-# Site Deployment
-remote_theme: chesterhow/tale
-
-permalink:    /:year-:month-:day/:title
-paginate:     5
-
-plugins:
-  - jekyll-paginate
-  - jekyll-remote-theme
+postcss:
+  cache: false

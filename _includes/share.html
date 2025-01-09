@@ -1,0 +1,72 @@
+<div id="share-buttons" class="inline-flex items-center space-x-4">
+  <!-- Reddit -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Reddit"
+    onclick="window.open('https://reddit.com/submit?url={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-reddit text-neutral-500 group-hover:text-[#ff4500] text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Mastodon -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Mastodon"
+    onclick="window.open('https://mastodon.social/share?text={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-mastodon text-neutral-500 group-hover:text-[#6364ff] text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Bluesky -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Bluesky"
+    onclick="window.open('https://bsky.app/share?text={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-bluesky text-neutral-500 group-hover:text-[#1da1f2] text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Email -->
+  <div
+    class="group cursor-pointer"
+    title="Share this through Email"
+    onclick="window.open('mailto:?&body={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-solid fa-envelope text-neutral-500 group-hover:text-neutral-700 text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Facebook -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Facebook"
+    onclick="window.open('http://www.facebook.com/share.php?u={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-facebook-f text-neutral-500 group-hover:text-[#3b5998] text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Twitter -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Twitter"
+    onclick="window.open('https://twitter.com/intent/tweet?text={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-twitter text-neutral-500 group-hover:text-[#55acee] text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- LinkedIn -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on LinkedIn"
+    onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ pageurl }}&title=&summary=&source=');"
+  >
+    <i
+      class="fa-brands fa-linkedin text-neutral-500 group-hover:text-[#0077b5] text-lg transition duration-200"
+    ></i>
+  </div>
+</div>

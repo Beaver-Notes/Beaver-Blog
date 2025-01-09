@@ -1,0 +1,26 @@
+---
+layout: none
+---
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>{{ site.title }}</title>
+    <link>{{ site.url }}</link>
+    <description>{{ site.description }}</description>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <language>en-us</language>
+    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
+    {% for post in site.posts %}
+    <item>
+      <title>{{ post.title | escape }}</title>
+      <link>{{ site.url }}{{ post.url }}</link>
+      <description>{{ post.excerpt | strip_html | escape }}</description>
+      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      <guid>{{ site.url }}{{ post.id }}</guid>
+      {% if post.cover %}
+      <media:content url="{{ site.url }}{{ post.image }}" type="image/jpeg" />
+      {% endif %}
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

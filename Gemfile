@@ -1,6 +1,8 @@
-# frozen_string_literal: true
+source 'https://rubygems.org'
 
-source "https://rubygems.org"
-gemspec
-gem "jekyll-remote-theme"
-gem "jekyll-paginate"
+gem 'jekyll'
+gem 'webrick'
+gem 'jekyll-feed'
+gem 'jekyll-postcss'
+gem 'jekyll-seo-tag'
+gem 'jemoji'
