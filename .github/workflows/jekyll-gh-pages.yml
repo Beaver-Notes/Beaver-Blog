@@ -1,28 +1,50 @@
+name: Build and deploy this site to GitHub Pages
+
 on:
-   push:
-     branches: [ master ]
-   pull_request:
-     branches: [ master ]
+  push:
+    branches:
+      - main
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
 
 jobs:
-   build:
+  github-pages:
+    runs-on: ubuntu-latest
 
-     runs-on: ubuntu-latest
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-     steps:
-     - uses: actions/checkout@v2
-     - name: Install Dependencies
-       run: npm install
-       
-     - name: Build the site in the jekyll/builder container
-       run: |
-         docker run \
-         -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-         jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
-         
-     - name: GitHub Pages
-       uses: crazy-max/ghaction-github-pages@v2.5.0
-       with:
-        build_dir: _site/
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Step 2: Setup Ruby environment
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1
+          bundler-cache: true
+
+      # Step 3: Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 5: Build the Jekyll site
+      - name: Build Jekyll site
+        uses: limjh16/jekyll-action-ts@v2
+        with:
+          enable_cache: true
+
+      # Step 6: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
