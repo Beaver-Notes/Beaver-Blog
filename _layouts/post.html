@@ -28,7 +28,7 @@ excerpt: "This is a sample excerpt for the post."
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
-  
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ page.title }}" />
@@ -36,15 +36,17 @@ excerpt: "This is a sample excerpt for the post."
     <meta property="og:image" content="{{ site.baseurl }}/{{ page.image }}" />
     <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
     <meta property="og:site_name" content="{{ site.title }}" />
-  
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ page.title }}" />
-    <meta name="twitter:description" content="{{ page.excerpt | strip_html }}" />
+    <meta
+      name="twitter:description"
+      content="{{ page.excerpt | strip_html }}"
+    />
     <meta name="twitter:image" content="{{ site.baseurl }}/{{ page.image }}" />
     <meta name="twitter:site" content="@YourTwitterHandle" />
-  
-  </head>  
+  </head>
   <body class="bg-white text-gray-800 dark:bg-neutral-800">
     {% include nav.html %}
     <main class="mt-8 max-w-3xl mx-auto relative px-4 lg:px-0">
@@ -102,12 +104,12 @@ excerpt: "This is a sample excerpt for the post."
           next_post = site.posts[next_post_index] %} {% if next_post %}
           <a
             href="{{ next_post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col-2"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row"
           >
             <img
               src="{{ site.baseurl }}/{{ next_post.image }}"
               alt="{{ next_post.title }}"
-              class="w-2/3 h-1/3 mr-4 rounded-lg"
+              class="sm:w-2/3 sm:h-1/3 sm:mr-4 w-full h-auto mb-4 rounded-lg"
             />
             <div class="content-center space-y-2">
               <h3 class="text-4xl dark:text-neutral-100 font-bold">
@@ -152,7 +154,7 @@ excerpt: "This is a sample excerpt for the post."
           in site.posts offset:next_posts_start limit:2 %}
           <a
             href="{{ post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 shadow p-4 flex flex-col space-y-2"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col space-y-2"
           >
             <img
               src="{{ site.baseurl }}/{{ post.image }}"
