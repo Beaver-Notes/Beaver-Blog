@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Beaver Blog</title>
+    <link>https://blog.beavernotes.com</link>
+    <description></description>
+    <lastBuildDate>Fri, 10 Jan 2025 10:36:59 +0000</lastBuildDate>
+    <language>en-us</language>
+    <atom:link href="https://blog.beavernotes.com/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>New Year = New Blog!</title>
+      <link>https://blog.beavernotes.com/2025/01/04/New-Year-=-New-Blog.html</link>
+      <description>Here we go again, another blog redesign!
+</description>
+      <pubDate>Sat, 04 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://blog.beavernotes.com/2025/01/04/New Year = New Blog</guid>
+      
+    </item>
+    
+    <item>
+      <title>Behind the Scenes</title>
+      <link>https://blog.beavernotes.com/2024/06/13/Behind-the-scenes.html</link>
+      <description>A lot has been going on behind the scenes at Beaver.
+</description>
+      <pubDate>Thu, 13 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.beavernotes.com/2024/06/13/Behind-the-scenes</guid>
+      
+    </item>
+    
+    <item>
+      <title>Security brief for version 2.7.0 and earlier versions</title>
+      <link>https://blog.beavernotes.com/2024/02/24/Security-brief-for-version-2.7.0-and-earlier-versions.html</link>
+      <description>Security Vulnerability in Beaver Notes Version 2.7.0 and Earlier
+
+During the development of version 2.8.0, the team discovered a vulnerability
+</description>
+      <pubDate>Sat, 24 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://blog.beavernotes.com/2024/02/24/Security-brief-for-version-2.7.0-and-earlier-versions</guid>
+      
+    </item>
+    
+  </channel>
+</rss>
