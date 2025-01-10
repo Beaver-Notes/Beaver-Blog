@@ -99,6 +99,10 @@ excerpt: "This is a sample excerpt for the post."
         <div class="content prose dark:prose-invert max-w-none">
           {{ content | markdownify }}
         </div>
+
+        <div class="mt-8">
+          {% include welcomments/comments.html website_id = "XBbDsxrQFlUyIMrdCpsy9Cqvc" %}
+        </div>
       </article>
 
       {% if site.related_posts %}
