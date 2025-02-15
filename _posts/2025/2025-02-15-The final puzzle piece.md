@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The final puzzle piece"
-date: 2025-01-04
+date: 2025-02-15
 author: "Daniele Rolli"
 github: Daniele-rolli
 label:
@@ -50,7 +50,7 @@ Now, everything from our website to our documentation is hosted on [GitHub Pages
 
 This move not only simplifies our development process but also makes it easier for the community to contribute, suggest improvements, and track changes. If you’re interested in getting involved, keep an eye on our GitHub repositories, we’d love to hear your feedback!
 
-We’re also going to fork the current Blog and Docs repository so that you can use them as templates for your own projects.
+We’re also going to fork the current [Blog](https://github.com/Beaver-Notes/Blog-Template) and Docs repository so that you can use them as templates for your own projects.
 
 # Thank You 💖
 

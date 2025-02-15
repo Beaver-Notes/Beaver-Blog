@@ -79,21 +79,24 @@ excerpt: "This is a sample excerpt for the post."
             </p>
             {% endfor %}
           </div>
-          <div class="flex items-center dark:text-neutral-100">
-            {% include avatar.html %}
-
-            <div>
-              <p class="text-sm dark:text-neutral-300">{{ page.author }}</p>
-              <p class="text-sm text-gray-500 dark:text-neutral-300">
-                {{ page.date | date: "%B %d, %Y" }} &bull;
-                <span class="read-time" title="Estimated read time">
-                  {% assign words = page.content | strip_html | number_of_words
-                  %} {{ words | divided_by: 200 | plus: 1 }} min read
-                </span>
-              </p>
+          <div class="dark:text-neutral-100">
+            <div class="flex items-center">
+              {% include avatar.html %}
+              <div>
+                <p class="text-sm dark:text-neutral-300">{{ page.author }}</p>
+                <p class="text-sm text-gray-500 dark:text-neutral-300">
+                  {{ page.date | date: "%B %d, %Y" }} &bull;
+                  <span class="read-time" title="Estimated read time">
+                    {% assign words = page.content | strip_html |
+                    number_of_words %} {{ words | divided_by: 200 | plus: 1 }}
+                    min read
+                  </span>
+                </p>
+              </div>
             </div>
+
+            <div class="flex justify-end">{% include share.html %}</div>
           </div>
-          <div class="">{% include share.html %}</div>
         </header>
 
         <div class="content prose dark:prose-invert max-w-none">
