@@ -4,79 +4,62 @@
     <div class="relative flex h-16 items-center justify-between">
       <div class="flex justify-center sm:items-stretch sm:justify-start">
         <a href="{{ site.baseurl }}/" class="flex shrink-0 items-center">
-          <img
-            class="h-8 w-auto"
-            src="{{ site.baseurl }}/assets/img/logo.png"
-          />
+          <img class="h-8 w-auto" src="{{ site.baseurl }}/assets/img/logo.png" />
           <p class="ml-4 dark:text-gray-100 font-bold">Beaver Blog</p>
         </a>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
-            <a
-              href="https://bsky.app/profile/beavernotes.com"
-              class="rounded-md dark:text-neutral-100 dark:text-neutral-100 hover:bg-blue-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-              aria-current="page"
-            >
+            <a href="https://bsky.app/profile/beavernotes.com" class="rounded-md dark:text-neutral-100 dark:text-neutral-100 hover:bg-blue-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
               <i class="fa-brands fa-bluesky hover:text-blue-400 fa-xl"></i>
             </a>
-            <a
-              href="https://mastodon.social/@Beavernotes"
-              class="rounded-md dark:text-neutral-100 hover:bg-[#6364FF] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-              aria-current="page"
-            >
+            <a href="https://mastodon.social/@Beavernotes" class="rounded-md dark:text-neutral-100 hover:bg-[#6364FF] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
               <i class="fa-brands fa-mastodon hover:text-[#6364FF] fa-xl"></i>
             </a>
-            <a
-              href="https://www.reddit.com/r/BeaverNotes"
-              class="rounded-md dark:text-neutral-100 hover:bg-[#FF4500] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-              aria-current="page"
-            >
+            <a href="https://www.reddit.com/r/BeaverNotes" class="rounded-md dark:text-neutral-100 hover:bg-[#FF4500] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
               <i class="fa-brands fa-reddit hover:text-[#FF4500] fa-xl"></i>
             </a>
-            <a
-              href="https://beaver-notes.github.io/Beaver-Docs"
-              class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-              aria-current="page"
-            >
+            <a href="https://beaver-notes.github.io/Beaver-Docs" class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
               <i class="fa-solid fa-book hover:text-amber-400 fa-xl"></i>
             </a>
-            <a
-              href="{{site.url}}/feed.xml"
-              class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-              aria-current="page"
-            >
+            <a href="{{site.url}}/feed.xml" class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
               <i class="fa-solid fa-rss hover:text-amber-400 fa-xl"></i>
             </a>
           </div>
         </div>
       </div>
       <!-- Search Icon Button -->
-      <button
-        onclick="openSearch()"
-        class="text-neutral-100 p-2 rounded-lg hover:bg-amber-400 hover:bg-opacity-10 flex items-center justify-center ml-auto"
-      >
-        <i
-          class="fa-solid fa-magnifying-glass text-gray-600 dark:text-neutral-100 hover:text-amber-400"
-        ></i>
+      <button onclick="openSearch()" class="text-neutral-100 p-2 rounded-lg hover:bg-amber-400 hover:bg-opacity-10 flex items-center justify-center ml-auto">
+        <i class="fa-solid fa-magnifying-glass text-gray-600 dark:text-neutral-100 hover:text-amber-400"></i>
       </button>
 
       <!-- Dark Mode Toggle Button -->
-      <button
-        id="dark-mode-toggle"
-        class="text-neutral-100 p-2 rounded-lg hover:bg-amber-400 hover:bg-opacity-10 flex items-center justify-center ml-4"
-        onclick="toggleDarkMode()"
-      >
-        <i
-          id="dark-mode-icon"
-          class="fa-solid fa-moon text-gray-600 dark:text-neutral-100"
-        ></i>
+      <button id="dark-mode-toggle" class="text-neutral-100 p-2 rounded-lg hover:bg-amber-400 hover:bg-opacity-10 flex items-center justify-center ml-4" onclick="toggleDarkMode()">
+        <i id="dark-mode-icon" class="fa-solid fa-moon text-gray-600 dark:text-neutral-100"></i>
       </button>
     </div>
 
-    <ul
-      id="results-container"
-      class="fixed right-0 z-40 w-80 bg-neutral-100 dark:bg-neutral-700 dark:text-neutral-100 rounded-xl overflow-auto"
-    >
+    <!-- Share Buttons Container -->
+    <div class="sm:hidden">
+      <div class="flex justify-center">
+        <a href="https://bsky.app/profile/beavernotes.com" class="rounded-md dark:text-neutral-100 dark:text-neutral-100 hover:bg-blue-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
+          <i class="fa-brands fa-bluesky hover:text-blue-400 fa-xl"></i>
+        </a>
+        <a href="https://mastodon.social/@Beavernotes" class="rounded-md dark:text-neutral-100 hover:bg-[#6364FF] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
+          <i class="fa-brands fa-mastodon hover:text-[#6364FF] fa-xl"></i>
+        </a>
+        <a href="https://www.reddit.com/r/BeaverNotes" class="rounded-md dark:text-neutral-100 hover:bg-[#FF4500] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
+          <i class="fa-brands fa-reddit hover:text-[#FF4500] fa-xl"></i>
+        </a>
+        <a href="https://beaver-notes.github.io/Beaver-Docs" class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
+          <i class="fa-solid fa-book hover:text-amber-400 fa-xl"></i>
+        </a>
+        <a href="{{site.url}}/feed.xml" class="rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white" aria-current="page">
+          <i class="fa-solid fa-rss hover:text-amber-400 fa-xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <ul id="results-container" class="fixed right-0 z-40 w-80 bg-neutral-100 dark:bg-neutral-700 dark:text-neutral-100 rounded-xl overflow-auto">
       <li></li>
     </ul>
   </div>
@@ -104,9 +87,7 @@
       const html = document.documentElement;
       const icon = document.getElementById("dark-mode-icon");
       const savedTheme = localStorage.getItem("theme");
-      const systemPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
+      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
       if (savedTheme) {
         // Apply saved theme
@@ -133,21 +114,19 @@
       }
 
       // Update theme dynamically if the system preference changes
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
-            if (e.matches) {
-              html.classList.add("dark");
-              icon.classList.add("fa-sun");
-              icon.classList.remove("fa-moon");
-            } else {
-              html.classList.remove("dark");
-              icon.classList.add("fa-moon");
-              icon.classList.remove("fa-sun");
-            }
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) {
+          if (e.matches) {
+            html.classList.add("dark");
+            icon.classList.add("fa-sun");
+            icon.classList.remove("fa-moon");
+          } else {
+            html.classList.remove("dark");
+            icon.classList.add("fa-moon");
+            icon.classList.remove("fa-sun");
           }
-        });
+        }
+      });
     });
 
     function openSearch() {

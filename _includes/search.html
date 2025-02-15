@@ -6,7 +6,7 @@
     role="dialog"
     aria-labelledby="search-dialog-title"
     aria-hidden="true"
-    class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24"
+    class="fixed inset-0 mx-4 z-50 flex items-start justify-center pt-16 sm:pt-24"
   >
     <div
       class="bg-white dark:bg-neutral-700 w-full max-w-xl rounded-lg shadow-xl relative"
@@ -22,11 +22,13 @@
           placeholder="Type to search..."
           aria-label="Search input"
         />
-
-        <!-- Search Icon -->
-        <i
-          class="fa-solid fa-magnifying-glass p-2 text-neutral-600 dark:text-neutral-100 hover:text-amber-400 text-lg cursor-pointer"
-        ></i>
+        
+        <!-- Close Button (visible on all screens) -->
+        <button onclick="closeSearch()">
+          <i
+            class="fa-solid fa-close p-2 text-neutral-600 dark:text-neutral-100 hover:text-amber-400 text-lg cursor-pointer"
+          ></i>
+        </button>
       </div>
       <ul id="results-container" class="pb-2"></ul>
     </div>
@@ -36,27 +38,42 @@
 <script>
   function closeSearch() {
     const searchContainer = document.getElementById("search-container");
+    const searchIcon = document.getElementById("search-icon");
+
     if (searchContainer) {
       searchContainer.classList.add("hidden");
     } else {
       console.error("Search container not found");
     }
+
+    if (searchIcon) {
+      searchIcon.classList.remove("hidden"); // Show search icon again
+    }
   }
 
-  // Initialize SimpleJekyllSearch
   document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById("search-input");
     const resultsContainer = document.getElementById("results-container");
+    const searchContainer = document.getElementById("search-container");
+    const searchIcon = document.getElementById("search-icon");
 
     // Add ESC key listener
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        e.preventDefault(); // Prevent default to avoid bubbling
+        e.preventDefault();
         closeSearch();
       }
     });
 
-    // Inject site.baseurl from Jekyll into the JSON path
+    // Hide search icon when search is open
+    if (searchIcon) {
+      searchIcon.addEventListener("click", () => {
+        searchContainer.classList.remove("hidden");
+        searchIcon.classList.add("hidden"); // Hide search icon
+      });
+    }
+
+    // Initialize SimpleJekyllSearch
     const jsonPath = "{{ site.baseurl }}/assets/search.json";
 
     if (!searchInput || !resultsContainer) {
@@ -64,7 +81,6 @@
       return;
     }
 
-    // Initialize the search with SimpleJekyllSearch
     SimpleJekyllSearch({
       searchInput: searchInput,
       resultsContainer: resultsContainer,
