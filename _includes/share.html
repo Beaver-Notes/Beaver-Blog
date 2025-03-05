@@ -1,8 +1,5 @@
-{% if include.pageurl != nil and include.pageurl != '' %}
-    {% assign pageurl = include.pageurl %}
-{% else %}
-    {% assign pageurl = page.url %}
-{% endif %}
+{% if include.pageurl != nil and include.pageurl != '' %} {% assign pageurl =
+include.pageurl %} {% else %} {% assign pageurl = page.url %} {% endif %}
 <div id="share-buttons" class="inline-flex items-center space-x-4">
   <!-- Reddit -->
   <div
@@ -18,7 +15,7 @@
   <div
     class="group cursor-pointer"
     title="Share this on Mastodon"
-    onclick="window.open('https://mastodon.social/share?text={{ site.url }}{{ pageurl }}');"
+    onclick="window.open('https://tootpick.org/#text={{ site.url }}{{ pageurl }}');"
   >
     <i
       class="fa-brands fa-mastodon text-neutral-500 group-hover:text-[#6364ff] text-lg transition duration-200"
@@ -42,6 +39,16 @@
   >
     <i
       class="fa-solid fa-envelope text-neutral-500 group-hover:text-neutral-700 text-lg transition duration-200"
+    ></i>
+  </div>
+  <!-- Threads -->
+  <div
+    class="group cursor-pointer"
+    title="Share this on Threads"
+    onclick="window.open('https://threads.net/intent/post?text={{ site.url }}{{ pageurl }}');"
+  >
+    <i
+      class="fa-brands fa-threads text-neutral-500 group-hover:text-neutral-800 text-lg transition duration-200"
     ></i>
   </div>
   <!-- Facebook -->
