@@ -11,6 +11,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+
+    {%- if jekyll.environment == 'production' -%}
+    <script
+      async
+      defer
+      data-website-id="b9de36df-0f2c-491d-b2ba-db1733f1bdb0"
+      src="https://cloud.umami.is/script.js"
+    ></script>
+    {%- endif -%}
   </head>
   <body class="bg-white text-gray-800 dark:bg-neutral-800">
     {% include nav.html %}
