@@ -1,0 +1,18 @@
+{% assign imgs = include.images | split: "," %}
+<div class="relative w-full not-prose my-4">
+  <div
+    class="flex overflow-x-auto space-x-4 snap-x snap-mandatory scrollbar-hide"
+  >
+    {% for image in imgs %}
+    <div class="flex-none w-72 snap-start border rounded-2xl">
+      <div class="rounded-2xl overflow-hidden">
+        <img
+          src="{{ site.url }}/{{ image | strip }}"
+          alt="Screenshot"
+          class="w-full h-auto object-cover block"
+        />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

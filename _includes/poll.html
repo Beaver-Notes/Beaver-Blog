@@ -1,0 +1,202 @@
+<div
+  id="poll-container-{{ include.poll_id }}"
+  class="mx-auto max-w-screen-xl"
+></div>
+
+<script type="module">
+  import confetti from "https://cdn.skypack.dev/canvas-confetti";
+  import dayjs from "https://cdn.skypack.dev/dayjs";
+  import relativeTime from "https://cdn.skypack.dev/dayjs/plugin/relativeTime";
+  import utc from "https://cdn.skypack.dev/dayjs/plugin/utc";
+  dayjs.extend(relativeTime);
+  dayjs.extend(utc);
+
+  const supabase = window.supabase;
+
+  const POLL_SLUG = "{{ include.poll_id }}";
+  const VOTE_KEY = `vote_${POLL_SLUG}`;
+  const ENDS_AT = {{ include.ends_at | default: "null" | jsonify }};
+
+  const pollDefinition = {
+    slug: POLL_SLUG,
+    question: {{ include.question | jsonify }},
+    options: {{ include.options | split: ',' | jsonify }},
+    ends_at: ENDS_AT,
+    closed: false
+  };
+
+  const container = () => document.getElementById("poll-container-" + POLL_SLUG);
+  const now = () => dayjs();
+
+  const fmtAbs = (iso) => dayjs.utc(iso).local().format("MMM D, YYYY HH:mm");
+
+  function isClosed(poll) {
+    if (poll.closed) return true;
+    if (poll.ends_at) {
+      return now().isAfter(dayjs.utc(poll.ends_at).local());
+    }
+    return false;
+  }
+
+  async function ensurePoll() {
+    let { data: poll } = await supabase.from("polls").select("*").eq("slug", POLL_SLUG).single();
+    if (poll) {
+      if (!poll.ends_at && pollDefinition.ends_at) {
+        const { data } = await supabase
+          .from("polls")
+          .update({ ends_at: pollDefinition.ends_at })
+          .eq("slug", POLL_SLUG)
+          .select()
+          .single();
+        poll = data || poll;
+      }
+      return poll;
+    }
+    const { data: created, error } = await supabase
+      .from("polls")
+      .insert({
+        slug: pollDefinition.slug,
+        question: pollDefinition.question,
+        options: pollDefinition.options,
+        votes: {},
+        ends_at: pollDefinition.ends_at || null,
+        closed: false
+      })
+      .select()
+      .single();
+    if (error) { console.error("Poll creation failed:", error); return null; }
+    return created;
+  }
+
+  async function autoCloseIfDue(poll) {
+    if (!poll) return poll;
+    if (isClosed(poll) && !poll.closed) {
+      const { data, error } = await supabase
+        .from("polls")
+        .update({ closed: true })
+        .eq("slug", POLL_SLUG)
+        .select()
+        .single();
+      if (error) { console.error("Auto-close failed:", error); return poll; }
+      return data;
+    }
+    return poll;
+  }
+
+  async function loadPoll() {
+    let poll = await ensurePoll();
+    poll = await autoCloseIfDue(poll);
+    if (poll) renderPoll(poll);
+  }
+
+  async function vote(newOption) {
+    const { data: poll, error } = await supabase.from("polls").select("*").eq("slug", POLL_SLUG).single();
+    if (error || !poll) return;
+    if (isClosed(poll)) { renderPoll(poll); return alert("Voting is closed for this poll."); }
+
+    const prev = localStorage.getItem(VOTE_KEY);
+    const votes = { ...(poll.votes || {}) };
+    if (prev && votes[prev] > 0) votes[prev] = (votes[prev] || 0) - 1;
+    votes[newOption] = (votes[newOption] || 0) + 1;
+
+    const { error: upErr } = await supabase.from("polls").update({ votes }).eq("slug", POLL_SLUG);
+    if (upErr) { console.error("Update failed:", upErr); return; }
+
+    localStorage.setItem(VOTE_KEY, newOption);
+    renderPoll({ ...poll, votes }); // optimistic
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  }
+
+  let relTimer = null;
+
+  function renderPoll(poll) {
+    const el = container();
+    if (!el) return;
+
+    const total = Object.values(poll.votes || {}).reduce((a, b) => a + b, 0);
+    const selected = localStorage.getItem(VOTE_KEY);
+    const closed = isClosed(poll);
+
+    let rightStatus = "";
+    if (poll.ends_at) {
+      if (closed) {
+        rightStatus = `<span class="text-sm text-neutral-600 dark:text-neutral-400">Closed ${fmtAbs(poll.ends_at)}</span>`;
+      } else {
+        rightStatus = `
+          <span id="ends-${POLL_SLUG}" class="text-sm text-neutral-600 dark:text-neutral-400">
+            Ends ${now().to(dayjs.utc(poll.ends_at).local())}
+          </span>`;
+      }
+    } else if (closed) {
+      rightStatus = `<span class="text-sm text-neutral-600 dark:text-neutral-400">Closed</span>`;
+    }
+
+    el.innerHTML = `
+      <div class="max-w-prose">
+        <p class="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 sm:text-3xl">${poll.question}</p>
+      </div>
+
+      <form class="mt-2 space-y-4">
+        <fieldset class="space-y-4" ${closed ? "disabled" : ""}>
+          ${poll.options.map((option) => {
+            const count = (poll.votes || {})[option] || 0;
+            const percent = total ? Math.round((count / total) * 100) : 0;
+            const checked = selected === option ? "checked" : "";
+            const borderClass = selected === option
+              ? "border border-amber-500 dark:border-amber-400"
+              : "border border-neutral-300 dark:border-neutral-700";
+            return `
+              <div class="flex items-center gap-4">
+                <label class="relative block flex-1 overflow-hidden rounded-lg ${borderClass} px-4 py-2 shadow-sm cursor-pointer ${closed ? "opacity-70 cursor-not-allowed" : ""}">
+                  <div class="absolute inset-y-0 left-0 rounded bg-amber-400/20" style="width:${percent}%"></div>
+                  <div class="relative flex items-center gap-4 justify-between">
+                    <input type="radio" name="poll-${POLL_SLUG}" value="${option}" class="hidden" ${checked} />
+                    <span class="font-medium text-neutral-900 dark:text-neutral-100">${option}</span>
+                    <span class="text-neutral-700 dark:text-neutral-300">${percent}%</span>
+                  </div>
+                </label>
+              </div>`;
+          }).join("")}
+        </fieldset>
+      </form>
+
+      <div class="mt-3 flex items-center justify-between">
+        <p class="text-sm text-neutral-700 dark:text-neutral-300">${total} vote${total===1?"":"s"}</p>
+        ${rightStatus}
+      </div>
+    `;
+
+    if (!closed) {
+      el.querySelectorAll(`input[name="poll-${POLL_SLUG}"]`).forEach(input => {
+        input.addEventListener("change", (e) => vote(e.target.value));
+      });
+    }
+
+    if (relTimer) { clearInterval(relTimer); relTimer = null; }
+    if (poll.ends_at && !closed) {
+      const endsEl = document.getElementById(`ends-${POLL_SLUG}`);
+      const tick = async () => {
+        const endsAt = dayjs.utc(poll.ends_at).local();
+        if (now().isAfter(endsAt)) {
+          const updated = await autoCloseIfDue(poll);
+          renderPoll(updated || poll);
+        } else {
+          if (endsEl) endsEl.textContent = `Ends ${now().to(endsAt)}`;
+        }
+      };
+      tick();
+      relTimer = setInterval(tick, 60_000);
+    }
+  }
+
+  await loadPoll();
+
+  supabase
+    .channel(`polls-${POLL_SLUG}`)
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "polls", filter: `slug=eq.${POLL_SLUG}` },
+      (payload) => renderPoll(payload.new)
+    )
+    .subscribe();
+</script>

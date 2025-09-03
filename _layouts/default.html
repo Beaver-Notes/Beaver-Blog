@@ -28,20 +28,23 @@
         <h2 class="text-xl dark:text-neutral-100 font-semibold mb-4">
           Latest Articles
         </h2>
+
+        <!-- HERO / BIG CARD -->
         <div class="pb-6">
           {% assign displayed_posts = "" | split: "," %} {% for post in
           site.posts limit:1 %} {% unless displayed_posts contains post.url %}
           {% assign displayed_posts = displayed_posts | push: post.url %}
           <a
             href="{{ post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row gap-4"
           >
+            <!-- Uniform height + crop with object-cover -->
             <img
               src="{{ post.image }}"
               alt="{{ post.title }}"
-              class="sm:w-2/3 sm:h-1/3 sm:mr-4 w-full h-auto rounded-lg"
+              class="w-full sm:w-2/3 h-1/3 object-cover object-center rounded-lg"
             />
-            <div class="content-center space-y-2">
+            <div class="content-center space-y-2 sm:flex-1">
               <h3 class="text-4xl dark:text-neutral-100 font-bold">
                 {{ post.title }}
               </h3>
@@ -57,8 +60,8 @@
               <p class="text-sm dark:text-neutral-100">
                 {{ post.excerpt | strip_html }}
               </p>
-              <div class="flex items-center dark:text-neutral-100">
-                <div class="w-8 h-8 rounded-full mr-2">
+              <div class="flex items-center gap-3 dark:text-neutral-100 pt-2">
+                <div class="w-8 h-8 rounded-full overflow-hidden">
                   {% include avatar.html %}
                 </div>
                 <div>
@@ -77,23 +80,25 @@
           </a>
           {% endunless %} {% endfor %}
         </div>
+
+        <!-- THREE CARDS UNDER THE BIG ONE -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {% for post in site.posts offset:1 limit:3 %} {% unless
           displayed_posts contains post.url %} {% assign displayed_posts =
           displayed_posts | push: post.url %}
           <a
             href="{{ post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col space-y-2"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col space-y-3"
           >
             <img
               src="{{ post.image }}"
               alt="{{ post.title }}"
-              class="w-full h-auto rounded-lg"
+              class="w-full h-64 object-cover object-center rounded-lg"
             />
             <h3 class="text-xl dark:text-neutral-100 font-bold">
               {{ post.title }}
             </h3>
-            <div class="flex flex-wrap gap-2 py-2">
+            <div class="flex flex-wrap gap-2">
               {% for label in post.label %}
               <p
                 class="text-sm bg-amber-400 text-amber-400 bg-opacity-10 px-2 py-1 rounded-lg"
@@ -105,11 +110,26 @@
             <p class="text-sm dark:text-neutral-100">
               {{ post.excerpt | strip_html }}
             </p>
+            <!-- NEW: author + date + read time under each card -->
+            <div class="flex items-center gap-3 pt-1">
+              <div class="w-7 h-7 rounded-full overflow-hidden">
+                {% include avatar.html %}
+              </div>
+              <div class="leading-tight">
+                <p class="text-xs dark:text-neutral-300">{{ post.author }}</p>
+                <p class="text-xs text-gray-500 dark:text-neutral-300">
+                  {{ post.date | date: "%b %d, %Y" }} • {% assign words =
+                  post.content | strip_html | number_of_words %} {{ words |
+                  divided_by: 200 | plus: 1 }} min
+                </p>
+              </div>
+            </div>
           </a>
           {% endunless %} {% endfor %}
         </div>
       </section>
 
+      <!-- READ MORE -->
       <section class="mt-8" id="read-more">
         <h2 class="text-xl dark:text-neutral-100 font-semibold mb-4">
           Read More
@@ -120,18 +140,18 @@
           {% assign displayed_posts = displayed_posts | push: post.url %}
           <a
             href="{{ post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row gap-4"
           >
             <img
               src="{{ post.image }}"
               alt="{{ post.title }}"
-              class="sm:w-1/3 sm:h-1/3 sm:mr-4 rounded-lg"
+              class="w-full sm:w-1/3 h-2/3 object-cover object-center rounded-lg"
             />
-            <div class="content-center space-y-2">
-              <h3 class="text-4xl dark:text-neutral-100 font-bold">
+            <div class="content-center space-y-2 sm:flex-1">
+              <h3 class="text-2xl dark:text-neutral-100 font-bold">
                 {{ post.title }}
               </h3>
-              <div class="flex flex-wrap gap-2 py-2">
+              <div class="flex flex-wrap gap-2 py-1">
                 {% for label in post.label %}
                 <p
                   class="text-sm bg-amber-400 text-amber-400 bg-opacity-10 px-2 py-1 rounded-lg"
@@ -143,17 +163,16 @@
               <p class="text-sm dark:text-neutral-100">
                 {{ post.excerpt | strip_html }}
               </p>
-              <div class="flex items-center dark:text-neutral-100">
-                {% include avatar.html %}
-                <div>
-                  <p class="text-sm dark:text-neutral-300">{{ post.author }}</p>
-                  <p class="text-sm text-gray-500 dark:text-neutral-300">
-                    {{ post.date | date: "%B %d, %Y" }} &bull;
-                    <span class="read-time" title="Estimated read time">
-                      {% assign words = post.content | strip_html |
-                      number_of_words %} {{ words | divided_by: 200 | plus: 1 }}
-                      min read
-                    </span>
+              <div class="flex items-center gap-3 pt-1">
+                <div class="w-7 h-7 rounded-full overflow-hidden">
+                  {% include avatar.html %}
+                </div>
+                <div class="leading-tight">
+                  <p class="text-xs dark:text-neutral-300">{{ post.author }}</p>
+                  <p class="text-xs text-gray-500 dark:text-neutral-300">
+                    {{ post.date | date: "%b %d, %Y" }} • {% assign words =
+                    post.content | strip_html | number_of_words %} {{ words |
+                    divided_by: 200 | plus: 1 }} min
                   </p>
                 </div>
               </div>

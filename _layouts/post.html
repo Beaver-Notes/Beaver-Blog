@@ -57,6 +57,7 @@ excerpt: "This is a sample excerpt for the post."
   </head>
   <body class="bg-white text-gray-800 dark:bg-neutral-800">
     {% include nav.html %}
+     {% include supabase-client.html %}
     <main class="mt-8 max-w-3xl mx-auto relative px-4 lg:px-0">
       <article>
         <header class="mb-4 space-y-2">
@@ -106,16 +107,7 @@ excerpt: "This is a sample excerpt for the post."
           {{ content | markdownify }}
         </div>
 
-        <div class="mt-8">
-          <script
-            src="https://utteranc.es/client.js"
-            repo="Beaver-Notes/Beaver-Blog"
-            issue-term="pathname"
-            theme="preferred-color-scheme"
-            crossorigin="anonymous"
-            async
-          ></script>
-        </div>
+        <div class="mt-8">{% include comments.html %}</div>
       </article>
 
       {% if site.related_posts %}

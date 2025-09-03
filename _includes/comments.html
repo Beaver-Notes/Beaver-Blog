@@ -1,0 +1,338 @@
+<section id="comments" class="mt-10">
+  <div class="flex justify-between items-center mb-2">
+    <h2 class="text-xl font-semibold dark:text-neutral-100">Comments</h2>
+    <span
+      id="comments-count"
+      class="text-sm text-neutral-600 dark:text-neutral-400"
+    >
+      0 Comments
+    </span>
+  </div>
+
+  <div id="comments-container" class="space-y-4"></div>
+
+  <form id="comment-form" class="mt-6 space-y-3">
+    <textarea
+      id="comment-input"
+      rows="3"
+      class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none focus:ring-2 focus:ring-amber-500 rounded-lg border border-neutral-300 dark:border-neutral-700 p-2 text-neutral-900 dark:text-neutral-100"
+      placeholder="Write a comment…"
+    ></textarea>
+    <input type="hidden" id="edit-id" value="" />
+    <input type="hidden" id="parent-id" value="" />
+    <div class="flex gap-2">
+      <button
+        type="submit"
+        id="comment-submit"
+        class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow"
+      >
+        Post Comment
+      </button>
+      <button
+        type="button"
+        id="cancel-edit"
+        class="hidden px-4 py-2 bg-neutral-400 dark:bg-neutral-700 hover:bg-neutral-700 text-white rounded-lg shadow"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</section>
+
+<script type="module">
+  const supabase = window.supabase;
+  const POST_SLUG = "{{ page.slug }}";
+
+  // ---------- Local reaction state ----------
+  const REACT_KEY = "comment_reactions_v3";
+  const reacted = JSON.parse(localStorage.getItem(REACT_KEY) || "{}");
+  const setReacted = (id, emoji, on) => {
+    reacted[id] = reacted[id] || {};
+    if (on) reacted[id][emoji] = true;
+    else delete reacted[id][emoji];
+    if (reacted[id] && Object.keys(reacted[id]).length === 0)
+      delete reacted[id];
+    localStorage.setItem(REACT_KEY, JSON.stringify(reacted));
+  };
+  const hasReacted = (id, emoji) => reacted[id]?.[emoji] === true;
+
+  // ---------- Tree builder ----------
+  function buildTree(rows) {
+    const byId = new Map(rows.map((r) => [r.id, { ...r, children: [] }]));
+    const roots = [];
+    for (const r of byId.values()) {
+      if (r.parent_id && byId.has(r.parent_id))
+        byId.get(r.parent_id).children.push(r);
+      else roots.push(r);
+    }
+    const order = (n) => {
+      n.children.sort((a, b) => a.created_at.localeCompare(b.created_at));
+      n.children.forEach(order);
+    };
+    roots.sort((a, b) => a.created_at.localeCompare(b.created_at));
+    roots.forEach(order);
+    return roots;
+  }
+
+  const countReplies = (n) =>
+    n.children.reduce((a, ch) => a + 1 + countReplies(ch), 0);
+
+  // ---------- Render ----------
+  function reactionChipHTML(id, emoji, count) {
+    const pressed = hasReacted(id, emoji);
+    const base = "flex items-center gap-1 text-xs px-2 py-1 rounded-full";
+    const cls = pressed
+      ? `${base} bg-amber-500 text-white`
+      : `${base} bg-neutral-100 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-700 dark:text-neutral-100`;
+    return `
+      <button class="${cls}" data-action="react" data-id="${id}" data-emoji="${emoji}" aria-pressed="${pressed}">
+        <span>${emoji}</span><span class="min-w-3 text-[11px]">${
+      count || 0
+    }</span>
+      </button>
+    `;
+  }
+
+  function renderNode(node, depth = 0) {
+    const reactions = node.reactions || {};
+    const emojis = ["👍", "❤️", "😂"];
+    const repliesCount = countReplies(node);
+    const indent = Math.min(depth, 6) * 4;
+
+    return `
+      <div id="comment-${node.id}" class="relative">
+        ${
+          depth > 0
+            ? `<div class="absolute -left-3 top-0 bottom-0 border-l border-neutral-200 dark:border-neutral-700"></div>`
+            : ""
+        }
+        <div class="p-3 ml-${indent} rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50">
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-xs text-neutral-500">${new Date(
+              node.created_at
+            ).toLocaleString()}</span>
+            <div class="space-x-3">
+              <button class="text-xs text-amber-600 hover:underline" data-action="edit" data-id="${
+                node.id
+              }" data-content="${encodeURIComponent(
+      node.content
+    )}">Edit</button>
+              <button class="text-xs text-red-500 hover:underline" data-action="delete" data-id="${
+                node.id
+              }">Delete</button>
+            </div>
+          </div>
+
+          <p class="text-neutral-900 dark:text-neutral-100 mb-2" id="content-${
+            node.id
+          }">${node.content}</p>
+
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            ${emojis
+              .map((e) => reactionChipHTML(node.id, e, reactions[e]))
+              .join("")}
+            <button class="text-xs text-amber-600 dark:text-amber-400 hover:underline ml-1" data-action="reply" data-id="${
+              node.id
+            }">Reply</button>
+            ${
+              node.children.length
+                ? `
+              <button class="text-xs text-neutral-600 dark:text-neutral-300 hover:underline ml-2"
+                data-action="toggle-replies" data-id="${node.id}" data-open="1">
+                Hide replies (${repliesCount})
+              </button>`
+                : ""
+            }
+          </div>
+
+          <div id="replies-${node.id}" class="space-y-2">
+            ${node.children.map((ch) => renderNode(ch, depth + 1)).join("")}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function loadComments() {
+    const { data, error } = await supabase
+      .from("comments")
+      .select("*")
+      .eq("post_slug", POST_SLUG)
+      .order("created_at", { ascending: true });
+    if (error) return console.error(error);
+
+    document.getElementById("comments-count").innerText = `${
+      data.length
+    } Comment${data.length === 1 ? "" : "s"}`;
+    document.getElementById("comments-link").innerText = `${
+      data.length
+    } Comment${data.length === 1 ? "" : "s"}`;
+    const tree = buildTree(data);
+    document.getElementById("comments-container").innerHTML = tree
+      .map((n) => renderNode(n, 0))
+      .join("");
+  }
+
+  // ---------- Actions ----------
+  async function postOrUpdate(content, editId, parentId) {
+    if (editId) {
+      await supabase.from("comments").update({ content }).eq("id", editId);
+    } else {
+      await supabase
+        .from("comments")
+        .insert([
+          { post_slug: POST_SLUG, content, parent_id: parentId || null },
+        ])
+        .select()
+        .single();
+    }
+    await loadComments();
+  }
+
+  async function toggleReaction(id, emoji) {
+    const { data } = await supabase
+      .from("comments")
+      .select("reactions")
+      .eq("id", id)
+      .single();
+    const reactions = data?.reactions || {};
+    const active = hasReacted(id, emoji);
+    const delta = active ? -1 : 1;
+    reactions[emoji] = Math.max(0, (reactions[emoji] || 0) + delta);
+    await supabase.from("comments").update({ reactions }).eq("id", id);
+    setReacted(id, emoji, !active);
+    await loadComments();
+  }
+
+  async function removeComment(id) {
+    if (!confirm("Delete this comment?")) return;
+    await supabase.from("comments").delete().eq("id", id);
+    await loadComments();
+  }
+
+  function startEdit(id, encoded) {
+    const content = decodeURIComponent(encoded);
+    document.getElementById("comment-input").value = content;
+    document.getElementById("edit-id").value = id;
+    document.getElementById("parent-id").value = "";
+    document.getElementById("comment-submit").innerText = "Update Comment";
+    document.getElementById("cancel-edit").classList.remove("hidden");
+  }
+
+  function startReply(parentId) {
+    document.getElementById("parent-id").value = parentId;
+    document.getElementById("edit-id").value = "";
+    document.getElementById("comment-submit").innerText = "Post Reply";
+    document.getElementById("cancel-edit").classList.remove("hidden");
+    document.getElementById("comment-input").focus();
+  }
+
+  function toggleReplies(id) {
+    const btn = document.querySelector(
+      `[data-action="toggle-replies"][data-id="${id}"]`
+    );
+    const box = document.getElementById("replies-" + id);
+    const open = btn.dataset.open === "1";
+    if (open) {
+      box.classList.add("hidden");
+      btn.innerText = btn.innerText.replace("Hide", "Show");
+      btn.dataset.open = "0";
+    } else {
+      box.classList.remove("hidden");
+      btn.innerText = btn.innerText.replace("Show", "Hide");
+      btn.dataset.open = "1";
+    }
+  }
+
+  // ---------- Event delegation ----------
+  document.addEventListener("DOMContentLoaded", () => {
+    const link = document.getElementById("comments-link");
+    link?.addEventListener("click", (e) => {
+      e.preventDefault();
+      const target = document.getElementById("comments");
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        document.getElementById("comment-input")?.focus();
+      }, 300);
+    });
+
+    const form = document.getElementById("comment-form");
+    const cancelBtn = document.getElementById("cancel-edit");
+    const container = document.getElementById("comments-container");
+
+    if (!form || !container) {
+      console.warn("Comments form or container not found on this page.");
+      return;
+    }
+
+    // Form submit
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const val = document.getElementById("comment-input").value.trim();
+      const editId = document.getElementById("edit-id").value;
+      const parentId = document.getElementById("parent-id").value;
+      if (!val) return;
+      await postOrUpdate(val, editId, parentId);
+      form.reset();
+      document.getElementById("edit-id").value = "";
+      document.getElementById("parent-id").value = "";
+      document.getElementById("comment-submit").innerText = "Post Comment";
+      cancelBtn.classList.add("hidden");
+    });
+
+    // Cancel edit
+    cancelBtn?.addEventListener("click", () => {
+      form.reset();
+      document.getElementById("edit-id").value = "";
+      document.getElementById("parent-id").value = "";
+      document.getElementById("comment-submit").innerText = "Post Comment";
+      cancelBtn.classList.add("hidden");
+    });
+
+    // Event delegation for actions
+    container.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const id = btn.dataset.id;
+      switch (btn.dataset.action) {
+        case "react":
+          toggleReaction(id, btn.dataset.emoji);
+          break;
+        case "edit":
+          startEdit(id, btn.dataset.content);
+          break;
+        case "reply":
+          startReply(id);
+          break;
+        case "delete":
+          removeComment(id);
+          break;
+        case "toggle-replies":
+          toggleReplies(id);
+          break;
+      }
+    });
+
+    // Initial load
+    loadComments();
+  });
+
+  // ---------- Realtime sync ----------
+  supabase
+    .channel("comments-" + POST_SLUG)
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "comments",
+        filter: `post_slug=eq.${POST_SLUG}`,
+      },
+      () => loadComments()
+    )
+    .subscribe();
+
+  // Initial load
+  loadComments();
+</script>

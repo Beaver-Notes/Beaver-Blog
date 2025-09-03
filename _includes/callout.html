@@ -1,0 +1,10 @@
+<div
+  class="border-l-4 border-solid {{ include.color | default: 'border-amber-400' }} {{ include.bg | default: 'bg-amber-400/20' }} p-4"
+>
+  {% if include.title %}
+  <div class="font-semibold mb-2">{{ include.title }}</div>
+  {% endif %}
+  <div class="prose marker:text-current text-current">
+    {{ include.content }}
+  </div>
+</div>
