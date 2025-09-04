@@ -12,6 +12,12 @@
   <div id="comments-container" class="space-y-4"></div>
 
   <form id="comment-form" class="mt-6 space-y-3">
+    <input
+      type="text"
+      id="comment-name"
+      placeholder="Your name (optional)"
+      class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 p-2 text-neutral-900 dark:text-neutral-100"
+    />
     <textarea
       id="comment-input"
       rows="3"
@@ -39,9 +45,22 @@
   </form>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+<script>
+  dayjs.extend(window.dayjs_plugin_relativeTime);
+</script>
+
 <script type="module">
   const supabase = window.supabase;
   const POST_SLUG = "{{ page.slug }}";
+
+  // ---------- Anonymous ID (persistent per browser) ----------
+  let anonId = localStorage.getItem("user_id");
+  if (!anonId) {
+    anonId = crypto.randomUUID();
+    localStorage.setItem("user_id", anonId);
+  }
 
   // ---------- Local reaction state ----------
   const REACT_KEY = "comment_reactions_v3";
@@ -50,8 +69,7 @@
     reacted[id] = reacted[id] || {};
     if (on) reacted[id][emoji] = true;
     else delete reacted[id][emoji];
-    if (reacted[id] && Object.keys(reacted[id]).length === 0)
-      delete reacted[id];
+    if (reacted[id] && Object.keys(reacted[id]).length === 0) delete reacted[id];
     localStorage.setItem(REACT_KEY, JSON.stringify(reacted));
   };
   const hasReacted = (id, emoji) => reacted[id]?.[emoji] === true;
@@ -77,6 +95,17 @@
   const countReplies = (n) =>
     n.children.reduce((a, ch) => a + 1 + countReplies(ch), 0);
 
+  // ---------- Avatar ----------
+  function generateAvatar(name) {
+    const initials = (name || "Anonymous")
+      .split(" ")
+      .map((w) => w[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+    return `<div class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500 text-white font-bold">${initials}</div>`;
+  }
+
   // ---------- Render ----------
   function reactionChipHTML(id, emoji, count) {
     const pressed = hasReacted(id, emoji);
@@ -86,9 +115,7 @@
       : `${base} bg-neutral-100 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-700 dark:text-neutral-100`;
     return `
       <button class="${cls}" data-action="react" data-id="${id}" data-emoji="${emoji}" aria-pressed="${pressed}">
-        <span>${emoji}</span><span class="min-w-3 text-[11px]">${
-      count || 0
-    }</span>
+        <span>${emoji}</span><span class="min-w-3 text-[11px]">${count || 0}</span>
       </button>
     `;
   }
@@ -98,61 +125,46 @@
     const emojis = ["👍", "❤️", "😂"];
     const repliesCount = countReplies(node);
     const indent = Math.min(depth, 6) * 4;
+    const canModify = anonId === node.user_id;
 
     return `
       <div id="comment-${node.id}" class="relative">
-        ${
-          depth > 0
-            ? `<div class="absolute -left-3 top-0 bottom-0 border-l border-neutral-200 dark:border-neutral-700"></div>`
-            : ""
-        }
+        ${depth > 0
+          ? `<div class="absolute -left-3 top-0 bottom-0 border-l border-neutral-200 dark:border-neutral-700"></div>`
+          : ""}
         <div class="p-3 ml-${indent} rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50">
-          <div class="flex justify-between items-center mb-1">
-            <span class="text-xs text-neutral-500">${new Date(
-              node.created_at
-            ).toLocaleString()}</span>
-            <div class="space-x-3">
-              <button class="text-xs text-amber-600 hover:underline" data-action="edit" data-id="${
-                node.id
-              }" data-content="${encodeURIComponent(
-      node.content
-    )}">Edit</button>
-              <button class="text-xs text-red-500 hover:underline" data-action="delete" data-id="${
-                node.id
-              }">Delete</button>
+          <div class="flex items-start gap-3">
+            ${generateAvatar(node.name)}
+            <div class="flex-1">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm font-medium">${node.name || "Anonymous"}</span>
+                <span class="text-xs text-neutral-500">${dayjs(node.created_at).fromNow()}</span>
+              </div>
+              <p class="text-neutral-900 dark:text-neutral-100 mb-2" id="content-${node.id}">${node.content}</p>
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                ${emojis.map((e) => reactionChipHTML(node.id, e, reactions[e])).join("")}
+                <button class="text-xs text-amber-600 dark:text-amber-400 hover:underline ml-1" data-action="reply" data-id="${node.id}">Reply</button>
+                ${node.children.length
+                  ? `<button class="text-xs text-neutral-600 dark:text-neutral-300 hover:underline ml-2" data-action="toggle-replies" data-id="${node.id}" data-open="1">Hide replies (${repliesCount})</button>`
+                  : ""}
+                ${canModify
+                  ? `
+                    <button class="text-xs text-amber-600 hover:underline" data-action="edit" data-id="${node.id}" data-content="${encodeURIComponent(node.content)}">Edit</button>
+                    <button class="text-xs text-red-500 hover:underline" data-action="delete" data-id="${node.id}">Delete</button>
+                  `
+                  : ""}
+              </div>
+              <div id="replies-${node.id}" class="space-y-2">
+                ${node.children.map((ch) => renderNode(ch, depth + 1)).join("")}
+              </div>
             </div>
-          </div>
-
-          <p class="text-neutral-900 dark:text-neutral-100 mb-2" id="content-${
-            node.id
-          }">${node.content}</p>
-
-          <div class="flex flex-wrap items-center gap-2 mb-2">
-            ${emojis
-              .map((e) => reactionChipHTML(node.id, e, reactions[e]))
-              .join("")}
-            <button class="text-xs text-amber-600 dark:text-amber-400 hover:underline ml-1" data-action="reply" data-id="${
-              node.id
-            }">Reply</button>
-            ${
-              node.children.length
-                ? `
-              <button class="text-xs text-neutral-600 dark:text-neutral-300 hover:underline ml-2"
-                data-action="toggle-replies" data-id="${node.id}" data-open="1">
-                Hide replies (${repliesCount})
-              </button>`
-                : ""
-            }
-          </div>
-
-          <div id="replies-${node.id}" class="space-y-2">
-            ${node.children.map((ch) => renderNode(ch, depth + 1)).join("")}
           </div>
         </div>
       </div>
     `;
   }
 
+  // ---------- Load comments ----------
   async function loadComments() {
     const { data, error } = await supabase
       .from("comments")
@@ -161,27 +173,27 @@
       .order("created_at", { ascending: true });
     if (error) return console.error(error);
 
-    document.getElementById("comments-count").innerText = `${
-      data.length
-    } Comment${data.length === 1 ? "" : "s"}`;
-    document.getElementById("comments-link").innerText = `${
-      data.length
-    } Comment${data.length === 1 ? "" : "s"}`;
+    document.getElementById("comments-count").innerText = `${data.length} Comment${data.length === 1 ? "" : "s"}`;
+    document.getElementById("comments-link").innerText = `${data.length} Comment${data.length === 1 ? "" : "s"}`;
     const tree = buildTree(data);
-    document.getElementById("comments-container").innerHTML = tree
-      .map((n) => renderNode(n, 0))
-      .join("");
+    document.getElementById("comments-container").innerHTML = tree.map((n) => renderNode(n, 0)).join("");
   }
 
-  // ---------- Actions ----------
-  async function postOrUpdate(content, editId, parentId) {
+  // ---------- Post / Update ----------
+  async function postOrUpdate(content, editId, parentId, name) {
     if (editId) {
       await supabase.from("comments").update({ content }).eq("id", editId);
     } else {
-      await supabase
+      const { data, error } = await supabase
         .from("comments")
         .insert([
-          { post_slug: POST_SLUG, content, parent_id: parentId || null },
+          {
+            post_slug: POST_SLUG,
+            content,
+            parent_id: parentId || null,
+            name: name || "Anonymous",
+            user_id: anonId,
+          },
         ])
         .select()
         .single();
@@ -189,12 +201,9 @@
     await loadComments();
   }
 
+  // ---------- Toggle reactions ----------
   async function toggleReaction(id, emoji) {
-    const { data } = await supabase
-      .from("comments")
-      .select("reactions")
-      .eq("id", id)
-      .single();
+    const { data } = await supabase.from("comments").select("reactions").eq("id", id).single();
     const reactions = data?.reactions || {};
     const active = hasReacted(id, emoji);
     const delta = active ? -1 : 1;
@@ -204,12 +213,14 @@
     await loadComments();
   }
 
+  // ---------- Delete ----------
   async function removeComment(id) {
     if (!confirm("Delete this comment?")) return;
     await supabase.from("comments").delete().eq("id", id);
     await loadComments();
   }
 
+  // ---------- Edit / Reply ----------
   function startEdit(id, encoded) {
     const content = decodeURIComponent(encoded);
     document.getElementById("comment-input").value = content;
@@ -228,9 +239,7 @@
   }
 
   function toggleReplies(id) {
-    const btn = document.querySelector(
-      `[data-action="toggle-replies"][data-id="${id}"]`
-    );
+    const btn = document.querySelector(`[data-action="toggle-replies"][data-id="${id}"]`);
     const box = document.getElementById("replies-" + id);
     const open = btn.dataset.open === "1";
     if (open) {
@@ -246,17 +255,6 @@
 
   // ---------- Event delegation ----------
   document.addEventListener("DOMContentLoaded", () => {
-    const link = document.getElementById("comments-link");
-    link?.addEventListener("click", (e) => {
-      e.preventDefault();
-      const target = document.getElementById("comments");
-      if (!target) return;
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => {
-        document.getElementById("comment-input")?.focus();
-      }, 300);
-    });
-
     const form = document.getElementById("comment-form");
     const cancelBtn = document.getElementById("cancel-edit");
     const container = document.getElementById("comments-container");
@@ -266,14 +264,14 @@
       return;
     }
 
-    // Form submit
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const val = document.getElementById("comment-input").value.trim();
       const editId = document.getElementById("edit-id").value;
       const parentId = document.getElementById("parent-id").value;
+      const name = document.getElementById("comment-name").value.trim() || "Anonymous";
       if (!val) return;
-      await postOrUpdate(val, editId, parentId);
+      await postOrUpdate(val, editId, parentId, name);
       form.reset();
       document.getElementById("edit-id").value = "";
       document.getElementById("parent-id").value = "";
@@ -281,7 +279,6 @@
       cancelBtn.classList.add("hidden");
     });
 
-    // Cancel edit
     cancelBtn?.addEventListener("click", () => {
       form.reset();
       document.getElementById("edit-id").value = "";
@@ -290,7 +287,6 @@
       cancelBtn.classList.add("hidden");
     });
 
-    // Event delegation for actions
     container.addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-action]");
       if (!btn) return;
@@ -314,25 +310,19 @@
       }
     });
 
-    // Initial load
     loadComments();
   });
 
   // ---------- Realtime sync ----------
   supabase
     .channel("comments-" + POST_SLUG)
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        table: "comments",
-        filter: `post_slug=eq.${POST_SLUG}`,
-      },
-      () => loadComments()
-    )
+    .on("postgres_changes", {
+      event: "*",
+      schema: "public",
+      table: "comments",
+      filter: `post_slug=eq.${POST_SLUG}`,
+    }, () => loadComments())
     .subscribe();
 
-  // Initial load
   loadComments();
 </script>
