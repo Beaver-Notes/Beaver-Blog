@@ -5,7 +5,7 @@ date: 2025-07-06
 author: "Daniele Rolli"
 github: Daniele-rolli
 label:
-  - Community
+  - Release
 image: assets/img/2025/2025-06-24.png
 excerpt_separator: <!--more-->
 ---

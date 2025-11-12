@@ -23,9 +23,32 @@
   </head>
   <body class="bg-white text-gray-800 dark:bg-neutral-800">
     {% include nav.html %}
+    <section class="container mx-auto px-4 mt-6 mb-4">
+      <div id="label-buttons" class="flex flex-wrap gap-2">
+        <button
+          class="label-btn active text-sm bg-amber-400 text-amber-400 bg-opacity-20 font-medium px-3 py-1 rounded-lg"
+          data-label="all"
+        >
+          All
+        </button>
+        {% assign all_labels = "" | split: "," %} {% for post in site.posts %}
+        {% for label in post.label %} {% unless all_labels contains label %} {%
+        assign all_labels = all_labels | push: label %} {% endunless %} {%
+        endfor %} {% endfor %} {% assign sorted_labels = all_labels | uniq |
+        sort %} {% for label in sorted_labels %}
+        <button
+          class="label-btn text-sm bg-amber-400 text-amber-400 bg-opacity-10 hover:bg-opacity-20 px-3 py-1 rounded-lg transition"
+          data-label="{{ label | downcase }}"
+        >
+          #{{ label }}
+        </button>
+        {% endfor %}
+      </div>
+    </section>
+
     <main class="container mx-auto px-4 py-6">
       <section>
-        <h2 class="text-xl dark:text-neutral-100 font-semibold mb-4">
+        <h2 class="text-4xl dark:text-neutral-100 font-semibold mb-4">
           Latest Articles
         </h2>
 
@@ -34,45 +57,57 @@
           {% assign displayed_posts = "" | split: "," %} {% for post in
           site.posts limit:1 %} {% unless displayed_posts contains post.url %}
           {% assign displayed_posts = displayed_posts | push: post.url %}
+
           <a
             href="{{ post.url }}"
-            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row gap-4"
+            class="rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-700 p-4 flex flex-col sm:flex-row gap-6"
           >
-            <!-- Uniform height + crop with object-cover -->
+            <!-- Image -->
             <img
               src="{{ post.image }}"
               alt="{{ post.title }}"
-              class="w-full sm:w-2/3 h-1/3 object-cover object-center rounded-lg"
+              class="w-full sm:w-2/3 h-64 sm:h-auto object-cover object-center rounded-lg flex-shrink-0"
             />
-            <div class="content-center space-y-2 sm:flex-1">
-              <h3 class="text-4xl dark:text-neutral-100 font-bold">
-                {{ post.title }}
-              </h3>
-              <div class="flex flex-wrap gap-2 py-2">
-                {% for label in post.label %}
-                <p
-                  class="text-sm bg-amber-400 text-amber-400 bg-opacity-10 px-2 py-1 rounded-lg"
-                >
-                  #{{ label }}
+
+            <!-- Content -->
+            <div class="flex flex-col justify-between sm:flex-1 space-y-4">
+              <div>
+                <h3 class="text-3xl dark:text-neutral-100 font-bold mb-2">
+                  {{ post.title }}
+                </h3>
+
+                <!-- Labels -->
+                <div class="flex flex-wrap gap-2 mb-3">
+                  {% for label in post.label %}
+                  <p
+                    class="text-sm bg-amber-400 text-amber-400 bg-opacity-10 px-2 py-1 rounded-lg"
+                  >
+                    #{{ label }}
+                  </p>
+                  {% endfor %}
+                </div>
+
+                <!-- Excerpt -->
+                <p class="text-sm dark:text-neutral-100 leading-relaxed">
+                  {{ post.excerpt | strip_html }}
                 </p>
-                {% endfor %}
               </div>
-              <p class="text-sm dark:text-neutral-100">
-                {{ post.excerpt | strip_html }}
-              </p>
-              <div class="flex items-center gap-3 dark:text-neutral-100 pt-2">
-                <div class="w-8 h-8 rounded-full overflow-hidden">
+
+              <!-- Author + Date -->
+              <div
+                class="flex items-center gap-3"
+              >
+                <div class="w-10 h-10 rounded-full overflow-hidden">
                   {% include avatar.html %}
                 </div>
                 <div>
-                  <p class="text-sm dark:text-neutral-300">{{ post.author }}</p>
-                  <p class="text-sm text-gray-500 dark:text-neutral-300">
-                    {{ post.date | date: "%B %d, %Y" }} &bull;
-                    <span class="read-time" title="Estimated read time">
-                      {% assign words = post.content | strip_html |
-                      number_of_words %} {{ words | divided_by: 200 | plus: 1 }}
-                      min read
-                    </span>
+                  <p class="text-sm dark:text-neutral-300 font-medium">
+                    {{ post.author }}
+                  </p>
+                  <p class="text-xs text-gray-500 dark:text-neutral-400">
+                    {{ post.date | date: "%B %d, %Y" }} &bull; {% assign words =
+                    post.content | strip_html | number_of_words %} {{ words |
+                    divided_by: 200 | plus: 1 }} min read
                   </p>
                 </div>
               </div>
@@ -183,5 +218,38 @@
       </section>
     </main>
     {% include footer.html %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const buttons = document.querySelectorAll(".label-btn");
+        const posts = document.querySelectorAll(
+          "#post-container a, .grid a, main > section > div > a"
+        );
+
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            // remove active state from others
+            buttons.forEach((b) => b.classList.remove("bg-opacity-20"));
+            buttons.forEach((b) => b.classList.add("bg-opacity-10"));
+
+            // activate this one
+            btn.classList.remove("bg-opacity-10");
+            btn.classList.add("bg-opacity-20");
+
+            const label = btn.dataset.label.toLowerCase();
+
+            posts.forEach((post) => {
+              const labels = Array.from(post.querySelectorAll("p")).map((el) =>
+                el.textContent.toLowerCase()
+              );
+              if (label === "all" || labels.some((l) => l.includes(label))) {
+                post.style.display = "";
+              } else {
+                post.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+    </script>
   </body>
 </html>
