@@ -1,0 +1,15 @@
+@keyframes lights {
+  0% {
+    background-position: top;
+  }
+  100% {
+    background-position: bottom;
+  }
+}
+
+#lights {
+  height: 69px;
+  background: url(./img/BdGY6tH.png);
+  background-size: auto 138px; /* total height = frame height * number of frames */
+  animation: lights 1s infinite steps(2, jump-none);
+}
