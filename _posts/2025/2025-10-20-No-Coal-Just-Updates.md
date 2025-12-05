@@ -35,7 +35,7 @@ You probably noticed that 4.2.0 was originally planned for September. We decided
 * Keyboard navigation in `/` menu improved
 * Fixed new notes not opening automatically
 * Better handling of embedded files and webpages
-* UI polish: interface size selector, dropdowns, search bar, editor search, font size selector, text color menu, collapsible heading, checkboxes
+* UI polish: interface size selector, dropdowns, search bar, editor search, font size selector, text color menu, collapsible headings, checkboxes
 * Upgraded flatpak runtime to 38
 * Renamed from Beaver-notes to Beaver Notes
 * Select and modify multiple notes
@@ -58,7 +58,7 @@ This month we’re participating in a small open-source event at an Italian high
 
 # Thank You 💖
 
-As always, the final, and most important, paragraph is dedicated to our users, maintainers, contributors, donors, and everyone who supports Beaver in their own way. I owe you my deepest gratitude,without you, none of this would be possible. A heartfelt thanks to the entire community; you’re amazing, and I can’t wait for you to enjoy the new versions of Pocket and Notes.
+As always, the final, and most important, paragraph is dedicated to our users, maintainers, contributors, donors, and everyone who supports Beaver in their own way. I owe you my deepest gratitude, without you, none of this would be possible. A heartfelt thanks to the entire community; you’re amazing, and I can’t wait for you to enjoy the new versions of Pocket and Notes.
 
 We’d like to give a special shoutout to the team at [OpenAlternative](https://bsky.app/profile/openalternative.co) for helping spread the word, and to the team at [OSSing](https://ossign.org/) for supporting us with Windows code signing.
 
