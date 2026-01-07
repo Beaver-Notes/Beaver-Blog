@@ -2,6 +2,7 @@ title: Beaver Blog
 url: "https://blog.beavernotes.com"
 
 # Build settings
+timezone: Europe/Rome
 markdown: kramdown
 include:
   - _post
