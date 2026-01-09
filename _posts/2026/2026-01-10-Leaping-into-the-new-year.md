@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Leaping into the new year"
-date: 2026-01-08
+date: 2026-01-10
 author: "Daniele Rolli"
 github: Daniele-rolli
 label:
