@@ -36,7 +36,6 @@ jobs:
       - name: Build the site with Jekyll
         uses: limjh16/jekyll-action-ts@v2
         with:
-          custom_opts: '--future'
           enable_cache: true
 
       - name: Upload artifact
