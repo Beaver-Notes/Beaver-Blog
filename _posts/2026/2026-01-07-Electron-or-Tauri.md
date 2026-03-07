@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Electron or Tauri? Choosing Beaver’s Future"
-date: 2026-01-07
+date: 2026-03-07
 author: "Daniele Rolli"
 github: Daniele-rolli
 label:
