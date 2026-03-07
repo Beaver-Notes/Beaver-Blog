@@ -1,5 +1,23 @@
 title: Beaver Blog
+description: Privacy-focused updates from Beaver Notes on releases, development, and community progress.
 url: "https://blog.beavernotes.com"
+image: /assets/img/placeholder.png
+logo: /assets/img/logo.png
+twitter:
+  username: BeaverNotes
+  card: summary_large_image
+social:
+  name: Beaver Notes
+  links:
+    - https://github.com/Beaver-Notes
+    - https://x.com/BeaverNotes
+    - https://bsky.app/profile/beavernotes.com
+    - https://mastodon.social/@Beavernotes
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /assets/img/placeholder.png
 
 # Build settings
 timezone: Europe/Rome

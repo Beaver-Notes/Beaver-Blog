@@ -1,27 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ site.title }}</title>
-    <link href="{{ site.baseurl }}/assets/main.css" rel="stylesheet" />
-    <link href="{{ site.baseurl }}/assets/lights.css?v=2" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
-    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
-
-    {%- if jekyll.environment == 'production' -%}
-    <script
-      async
-      defer
-      data-website-id="b9de36df-0f2c-491d-b2ba-db1733f1bdb0"
-      src="https://cloud.umami.is/script.js"
-    ></script>
-    {%- endif -%}
-  </head>
+  {% include head.html %}
   <body class="bg-white text-gray-800 dark:bg-neutral-800">
     {% include nav.html %}
     <section class="container mx-auto px-4 mt-6 mb-4">
