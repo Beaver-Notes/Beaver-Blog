@@ -1,75 +1,142 @@
 <section id="comments" class="mt-10">
-  <div class="flex justify-between items-center mb-2">
+  <div class="flex justify-between items-center mb-4">
     <h2 class="text-xl font-semibold dark:text-neutral-100">Comments</h2>
-    <span
-      id="comments-count"
-      class="text-sm text-neutral-600 dark:text-neutral-400"
-    >
+    <span id="comments-count" class="text-sm text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800 px-2.5 py-1 rounded-full">
       0 Comments
     </span>
   </div>
 
-  <div id="comments-container" class="space-y-4"></div>
+  <div id="comments-container" class="space-y-3"></div>
 
-  <form id="comment-form" class="mt-6 space-y-3">
-    <input
-      type="text"
-      id="comment-name"
-      placeholder="Your name (optional)"
-      class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 p-2 text-neutral-900 dark:text-neutral-100"
-    />
-    <textarea
-      id="comment-input"
-      rows="3"
-      class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none focus:ring-2 focus:ring-amber-500 rounded-lg border border-neutral-300 dark:border-neutral-700 p-2 text-neutral-900 dark:text-neutral-100"
-      placeholder="Write a comment…"
-    ></textarea>
-    <input type="hidden" id="edit-id" value="" />
-    <input type="hidden" id="parent-id" value="" />
-    <div class="flex gap-2">
-      <button
-        type="submit"
-        id="comment-submit"
-        class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg shadow"
-      >
-        Post Comment
-      </button>
-      <button
-        type="button"
-        id="cancel-edit"
-        class="hidden px-4 py-2 bg-neutral-400 dark:bg-neutral-700 hover:bg-neutral-700 text-white rounded-lg shadow"
-      >
-        Cancel
-      </button>
+  <!-- Desktop form -->
+  <div id="desktop-form-wrap" class="mt-6 hidden sm:block">
+    <div id="form-context-banner" class="hidden mb-3 flex items-center justify-between gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-xs text-amber-800 dark:text-amber-300">
+      <span id="form-context-label"></span>
+      <button id="cancel-edit" type="button" class="font-medium underline underline-offset-2 hover:no-underline">Cancel</button>
     </div>
-  </form>
+    <button id="desktop-form-trigger"
+      class="w-full flex items-center gap-3 bg-white/50 dark:bg-neutral-800/50 border border-neutral-300 dark:border-neutral-700 rounded-xl px-4 py-3 text-neutral-400 dark:text-neutral-500 text-sm hover:border-amber-400 dark:hover:border-amber-600 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors text-left">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+      </svg>
+      Leave a comment…
+    </button>
+    <form id="comment-form" class="hidden space-y-3">
+      <input type="hidden" id="edit-id" value="" />
+      <input type="hidden" id="parent-id" value="" />
+      <div class="flex gap-3 flex-wrap">
+        <input type="text" id="comment-name" placeholder="Your name (optional)"
+          class="w-44 flex-none bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
+        <input type="email" id="comment-email" placeholder="Email for reply notifications (optional)"
+          class="flex-1 min-w-0 bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
+      </div>
+      <p class="text-xs text-neutral-400 dark:text-neutral-500 -mt-1">Email is never shown publicly. Only used to notify you of replies.</p>
+      <textarea id="comment-input" rows="4"
+        class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 dark:focus:border-amber-600 rounded-lg border border-neutral-300 dark:border-neutral-700 p-3 text-sm text-neutral-900 dark:text-neutral-100 resize-none transition-colors"
+        placeholder="Write a comment…"></textarea>
+      <div class="flex items-center gap-2">
+        <button type="submit" id="comment-submit"
+          class="px-4 py-2 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 disabled:opacity-60 text-white rounded-lg text-sm font-medium shadow-sm transition-colors">
+          Post Comment
+        </button>
+        <button type="button" id="desktop-form-close"
+          class="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 rounded-lg transition-colors">
+          Discard
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Mobile trigger -->
+  <button id="mobile-comment-trigger"
+    class="sm:hidden mt-5 w-full flex items-center gap-3 bg-white/60 dark:bg-neutral-800/60 border border-neutral-300 dark:border-neutral-700 rounded-xl px-4 py-3 text-neutral-400 dark:text-neutral-500 text-sm shadow-sm active:scale-[0.98] transition-transform">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+    </svg>
+    Write a comment…
+  </button>
 </section>
+
+<!-- Mobile sheet backdrop -->
+<div id="mobile-sheet-backdrop"
+  class="sm:hidden fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+<!-- Mobile slide-up sheet -->
+<div id="mobile-sheet"
+  class="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-neutral-900 rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 ease-out"
+  style="max-height: 92vh; display: flex; flex-direction: column;">
+  <div class="flex justify-center pt-3 pb-1 shrink-0">
+    <div class="w-10 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-600"></div>
+  </div>
+  <div class="flex items-center justify-between px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
+    <h3 id="mobile-sheet-title" class="font-semibold text-neutral-900 dark:text-neutral-100">New Comment</h3>
+    <button id="mobile-sheet-close" class="p-2 -mr-2 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 rounded-full transition-colors" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+  <form id="mobile-comment-form" class="flex flex-col gap-3 px-4 py-4 overflow-y-auto flex-1">
+    <input type="hidden" id="mobile-edit-id" value="" />
+    <input type="hidden" id="mobile-parent-id" value="" />
+    <div>
+      <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">Name (optional)</label>
+      <input type="text" id="mobile-comment-name" placeholder="Anonymous"
+        class="w-full bg-neutral-50 dark:bg-neutral-800 outline-none rounded-xl border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-base text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 transition-colors" />
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+        Email <span class="font-normal text-neutral-400">(optional — for reply notifications)</span>
+      </label>
+      <input type="email" id="mobile-comment-email" placeholder="Never shown publicly"
+        class="w-full bg-neutral-50 dark:bg-neutral-800 outline-none rounded-xl border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-base text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 transition-colors" />
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">Comment</label>
+      <textarea id="mobile-comment-input" rows="5"
+        class="w-full bg-neutral-50 dark:bg-neutral-800 outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 rounded-xl border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-base text-neutral-900 dark:text-neutral-100 resize-none transition-colors"
+        placeholder="What's on your mind?"></textarea>
+    </div>
+    <button type="submit" id="mobile-comment-submit"
+      class="w-full py-3.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 disabled:opacity-60 text-white rounded-xl font-semibold text-base shadow transition-colors">
+      Post Comment
+    </button>
+  </form>
+</div>
+
+<style>
+  /* Smooth reply thread reveal */
+  .replies-box { overflow: hidden; transition: max-height 0.25s ease, opacity 0.2s ease; }
+  .replies-box.collapsed { max-height: 0 !important; opacity: 0; pointer-events: none; }
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
-<script>
-  dayjs.extend(window.dayjs_plugin_relativeTime);
-</script>
+<script>dayjs.extend(window.dayjs_plugin_relativeTime);</script>
 
 <script type="module">
   const supabase = window.supabase;
   const POST_SLUG = "{{ page.slug }}";
 
-  // ---------- Anonymous ID (persistent per browser) ----------
+  // ---------- Anonymous ID ----------
   let anonId = localStorage.getItem("user_id");
-  if (!anonId) {
-    anonId = crypto.randomUUID();
-    localStorage.setItem("user_id", anonId);
-  }
+  if (!anonId) { anonId = crypto.randomUUID(); localStorage.setItem("user_id", anonId); }
 
-  // ---------- Local reaction state ----------
+  // ---------- Saved email (persisted across sessions) ----------
+  // Email is stored locally and sent with each new comment so the backend
+  // can trigger a reply notification. It is never rendered in the UI.
+  // To wire up notifications: add a `notify_email` text column to the comments
+  // table, then create a Supabase Edge Function / pg trigger that emails the
+  // parent comment's notify_email when a child row is inserted.
+  let savedEmail = localStorage.getItem("commenter_email") || "";
+
+  // ---------- Reaction state ----------
   const REACT_KEY = "comment_reactions_v3";
   const reacted = JSON.parse(localStorage.getItem(REACT_KEY) || "{}");
   const setReacted = (id, emoji, on) => {
     reacted[id] = reacted[id] || {};
-    if (on) reacted[id][emoji] = true;
-    else delete reacted[id][emoji];
-    if (reacted[id] && Object.keys(reacted[id]).length === 0) delete reacted[id];
+    if (on) reacted[id][emoji] = true; else delete reacted[id][emoji];
+    if (Object.keys(reacted[id]).length === 0) delete reacted[id];
     localStorage.setItem(REACT_KEY, JSON.stringify(reacted));
   };
   const hasReacted = (id, emoji) => reacted[id]?.[emoji] === true;
@@ -79,83 +146,170 @@
     const byId = new Map(rows.map((r) => [r.id, { ...r, children: [] }]));
     const roots = [];
     for (const r of byId.values()) {
-      if (r.parent_id && byId.has(r.parent_id))
-        byId.get(r.parent_id).children.push(r);
+      if (r.parent_id && byId.has(r.parent_id)) byId.get(r.parent_id).children.push(r);
       else roots.push(r);
     }
-    const order = (n) => {
-      n.children.sort((a, b) => a.created_at.localeCompare(b.created_at));
-      n.children.forEach(order);
-    };
+    const order = (n) => { n.children.sort((a, b) => a.created_at.localeCompare(b.created_at)); n.children.forEach(order); };
     roots.sort((a, b) => a.created_at.localeCompare(b.created_at));
     roots.forEach(order);
     return roots;
   }
-
-  const countReplies = (n) =>
-    n.children.reduce((a, ch) => a + 1 + countReplies(ch), 0);
+  const countReplies = (n) => n.children.reduce((a, ch) => a + 1 + countReplies(ch), 0);
 
   // ---------- Avatar ----------
-  function generateAvatar(name) {
-    const initials = (name || "Anonymous")
-      .split(" ")
-      .map((w) => w[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-    return `<div class="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500 text-white font-bold">${initials}</div>`;
+  function generateAvatar(name, size = "w-8 h-8") {
+    const initials = (name || "?").split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
+    const colors = ["bg-amber-500","bg-sky-500","bg-emerald-500","bg-violet-500","bg-rose-500","bg-orange-500","bg-teal-500"];
+    const color = colors[(name || "?").charCodeAt(0) % colors.length];
+    return `<div class="${size} flex items-center justify-center rounded-full ${color} text-white text-xs font-bold shrink-0 select-none">${initials}</div>`;
   }
 
-  // ---------- Render ----------
+  // ---------- Reaction chips ----------
   function reactionChipHTML(id, emoji, count) {
     const pressed = hasReacted(id, emoji);
-    const base = "flex items-center gap-1 text-xs px-2 py-1 rounded-full";
+    const base = "flex items-center gap-1 text-sm px-2.5 py-1 rounded-full transition-all duration-150 active:scale-95 select-none cursor-pointer";
     const cls = pressed
-      ? `${base} bg-amber-500 text-white`
-      : `${base} bg-neutral-100 text-neutral-800 hover:bg-neutral-200 dark:bg-neutral-700 dark:text-neutral-100`;
+      ? `${base} bg-amber-500 text-white font-medium shadow-sm ring-2 ring-amber-300 dark:ring-amber-700`
+      : `${base} bg-neutral-100 text-neutral-600 hover:bg-amber-50 hover:text-amber-700 dark:bg-neutral-700/70 dark:text-neutral-300 dark:hover:bg-amber-900/30 dark:hover:text-amber-300`;
+    return `<button class="${cls}" data-action="react" data-id="${id}" data-emoji="${emoji}" aria-pressed="${pressed}" aria-label="React ${emoji}"><span>${emoji}</span><span class="min-w-[1ch] tabular-nums text-xs leading-none">${count || 0}</span></button>`;
+  }
+
+  // ---------- Inline reply form (desktop) ----------
+  function inlineReplyFormHTML(parentId, parentName) {
+    const replyingTo = parentName && parentName !== "Anonymous" ? `Replying to ${parentName}` : "Writing a reply";
     return `
-      <button class="${cls}" data-action="react" data-id="${id}" data-emoji="${emoji}" aria-pressed="${pressed}">
-        <span>${emoji}</span><span class="min-w-3 text-[11px]">${count || 0}</span>
+      <div id="inline-reply-${parentId}" class="mt-3 pl-2 border-l-2 border-amber-300 dark:border-amber-700">
+        <p class="text-xs text-amber-600 dark:text-amber-400 mb-2 font-medium">${replyingTo}</p>
+        <div class="space-y-2">
+          <div class="flex gap-2 flex-wrap">
+            <input type="text" id="inline-reply-name-${parentId}" placeholder="Your name (optional)"
+              class="w-36 flex-none bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-1.5 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
+            <input type="email" id="inline-reply-email-${parentId}" placeholder="Email (optional, for replies)"
+              class="flex-1 min-w-0 bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-1.5 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
+          </div>
+          <textarea id="inline-reply-input-${parentId}" rows="3"
+            class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 dark:focus:border-amber-600 rounded-lg border border-neutral-300 dark:border-neutral-700 p-2.5 text-sm text-neutral-900 dark:text-neutral-100 resize-none transition-colors"
+            placeholder="Write a reply…"></textarea>
+          <div class="flex gap-2 items-center">
+            <button type="button" data-action="submit-inline-reply" data-parent="${parentId}"
+              class="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 active:bg-amber-700 disabled:opacity-60 text-white rounded-lg text-xs font-medium shadow-sm transition-colors">
+              Post Reply
+            </button>
+            <button type="button" data-action="cancel-inline-reply" data-parent="${parentId}"
+              class="px-2 py-1.5 text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 rounded-lg transition-colors">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ---------- Collapsed replies toggle button ----------
+  // Shows the avatar of the first replier as a hint
+  function repliesToggleHTML(node, repliesCount, startCollapsed) {
+    const firstReply = node.children[0];
+    const previewName = firstReply?.name || "Anonymous";
+    const previewInitial = previewName[0].toUpperCase();
+    const colors = ["bg-amber-500","bg-sky-500","bg-emerald-500","bg-violet-500","bg-rose-500","bg-orange-500","bg-teal-500"];
+    const color = colors[previewName.charCodeAt(0) % colors.length];
+    const label = repliesCount === 1 ? "1 reply" : `${repliesCount} replies`;
+    const chevronRotate = startCollapsed ? "-rotate-90" : "";
+
+    return `
+      <button class="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700/50 active:opacity-70 transition-colors group"
+        data-action="toggle-replies" data-id="${node.id}" data-open="${startCollapsed ? "0" : "1"}">
+        <div class="w-4 h-4 rounded-full ${color} text-white flex items-center justify-center text-[9px] font-bold shrink-0">${previewInitial}</div>
+        <span id="toggle-label-${node.id}">${label}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" id="chevron-${node.id}" class="w-3 h-3 transition-transform duration-200 ${chevronRotate}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+        </svg>
       </button>
     `;
   }
+
+  // ---------- Render node ----------
+  // Visual depth cap: beyond depth 1, no more indent — just accent border
+  // On mobile, threads with 3+ replies start collapsed
+  const AUTO_COLLAPSE_THRESHOLD = 3;
 
   function renderNode(node, depth = 0) {
     const reactions = node.reactions || {};
     const emojis = ["👍", "❤️", "😂"];
     const repliesCount = countReplies(node);
-    const indent = Math.min(depth, 6) * 4;
     const canModify = anonId === node.user_id;
 
+    // Collapse replies by default if there are many
+    const startCollapsed = repliesCount >= AUTO_COLLAPSE_THRESHOLD;
+
+    // Visual nesting: depth 0 = top-level, depth 1+ = reply style
+    // We don't increase indentation past depth 1 — instead replies get a
+    // left-border accent that lightens with depth, keeping content wide on mobile
+    const isReply = depth > 0;
+    const borderAccent = isReply
+      ? "border-l-2 border-neutral-200 dark:border-neutral-700 pl-3 sm:pl-4"
+      : "";
+
+    // "Replying to X" byline for nested replies
+    const replyingToLine = isReply && node.name
+      ? "" // name is shown in the header already; visual nesting is enough
+      : "";
+
     return `
-      <div id="comment-${node.id}" class="relative">
-        ${depth > 0
-          ? `<div class="absolute -left-3 top-0 bottom-0 border-l border-neutral-200 dark:border-neutral-700"></div>`
-          : ""}
-        <div class="p-3 ml-${indent} rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white/50 dark:bg-neutral-800/50">
-          <div class="flex items-start gap-3">
-            ${generateAvatar(node.name)}
-            <div class="flex-1">
-              <div class="flex justify-between items-center mb-1">
-                <span class="text-sm font-medium">${node.name || "Anonymous"}</span>
-                <span class="text-xs text-neutral-500">${dayjs(node.created_at).fromNow()}</span>
-              </div>
-              <p class="text-neutral-900 dark:text-neutral-100 mb-2" id="content-${node.id}">${node.content}</p>
-              <div class="flex flex-wrap items-center gap-2 mb-2">
-                ${emojis.map((e) => reactionChipHTML(node.id, e, reactions[e])).join("")}
-                <button class="text-xs text-amber-600 dark:text-amber-400 hover:underline ml-1" data-action="reply" data-id="${node.id}">Reply</button>
-                ${node.children.length
-                  ? `<button class="text-xs text-neutral-600 dark:text-neutral-300 hover:underline ml-2" data-action="toggle-replies" data-id="${node.id}" data-open="1">Hide replies (${repliesCount})</button>`
-                  : ""}
-                ${canModify
-                  ? `
-                    <button class="text-xs text-amber-600 hover:underline" data-action="edit" data-id="${node.id}" data-content="${encodeURIComponent(node.content)}">Edit</button>
-                    <button class="text-xs text-red-500 hover:underline" data-action="delete" data-id="${node.id}">Delete</button>
-                  `
-                  : ""}
-              </div>
-              <div id="replies-${node.id}" class="space-y-2">
-                ${node.children.map((ch) => renderNode(ch, depth + 1)).join("")}
+      <div id="comment-${node.id}" class="${isReply ? "mt-2" : ""}">
+        <div class="${borderAccent}">
+          <div class="p-3 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/60 dark:bg-neutral-800/60 hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors ${isReply ? "bg-neutral-50/80 dark:bg-neutral-900/40" : ""}">
+            <div class="flex items-start gap-2.5">
+              ${generateAvatar(node.name)}
+              <div class="flex-1 min-w-0">
+
+                <!-- Header -->
+                <div class="flex justify-between items-baseline gap-2 mb-1">
+                  <div class="flex items-baseline gap-1.5 min-w-0">
+                    <span class="text-sm font-semibold text-neutral-900 dark:text-neutral-100 truncate">${node.name || "Anonymous"}</span>
+                    ${isReply ? `<span class="text-xs text-neutral-400 dark:text-neutral-500 shrink-0">replied</span>` : ""}
+                  </div>
+                  <span class="text-xs text-neutral-400 dark:text-neutral-500 shrink-0 tabular-nums">${dayjs(node.created_at).fromNow()}</span>
+                </div>
+
+                <!-- Content -->
+                <p class="text-neutral-800 dark:text-neutral-200 text-sm leading-relaxed mb-2.5 whitespace-pre-wrap" id="content-${node.id}">${node.content}</p>
+
+                <!-- Reactions -->
+                <div class="flex flex-wrap items-center gap-1.5 mb-2">
+                  ${emojis.map((e) => reactionChipHTML(node.id, e, reactions[e])).join("")}
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-wrap items-center gap-0.5">
+                  <button class="inline-flex items-center gap-1 text-xs font-medium text-amber-600 dark:text-amber-400 px-2 py-1 rounded-md hover:bg-amber-50 dark:hover:bg-amber-900/20 active:opacity-70 transition-colors"
+                    data-action="reply" data-id="${node.id}" data-name="${node.name || "Anonymous"}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                    Reply
+                  </button>
+                  ${node.children.length ? repliesToggleHTML(node, repliesCount, startCollapsed) : ""}
+                  ${canModify ? `
+                    <div class="ml-auto flex items-center gap-0.5">
+                      <button class="text-xs text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 px-2 py-1 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-700/50 active:opacity-70 transition-colors"
+                        data-action="edit" data-id="${node.id}" data-content="${encodeURIComponent(node.content)}">Edit</button>
+                      <button class="text-xs text-red-400 hover:text-red-600 dark:hover:text-red-300 px-2 py-1 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 active:opacity-70 transition-colors"
+                        data-action="delete" data-id="${node.id}">Delete</button>
+                    </div>
+                  ` : ""}
+                </div>
+
+                <!-- Inline reply form slot (desktop) -->
+                <div id="inline-reply-wrap-${node.id}"></div>
+
+                <!-- Nested replies -->
+                ${node.children.length ? `
+                  <div id="replies-${node.id}"
+                    class="replies-box mt-2 space-y-2 ${startCollapsed ? "collapsed" : ""}"
+                    style="max-height: ${startCollapsed ? "0" : "9999px"};">
+                    ${node.children.map((ch) => renderNode(ch, depth + 1)).join("")}
+                  </div>
+                ` : ""}
+
               </div>
             </div>
           </div>
@@ -167,36 +321,38 @@
   // ---------- Load comments ----------
   async function loadComments() {
     const { data, error } = await supabase
-      .from("comments")
-      .select("*")
-      .eq("post_slug", POST_SLUG)
-      .order("created_at", { ascending: true });
+      .from("comments").select("*").eq("post_slug", POST_SLUG).order("created_at", { ascending: true });
     if (error) return console.error(error);
 
-    document.getElementById("comments-count").innerText = `${data.length} Comment${data.length === 1 ? "" : "s"}`;
-    document.getElementById("comments-link").innerText = `${data.length} Comment${data.length === 1 ? "" : "s"}`;
+    const label = `${data.length} Comment${data.length === 1 ? "" : "s"}`;
+    document.getElementById("comments-count").innerText = label;
+    const link = document.getElementById("comments-link");
+    if (link) link.innerText = label;
+
     const tree = buildTree(data);
-    document.getElementById("comments-container").innerHTML = tree.map((n) => renderNode(n, 0)).join("");
+    document.getElementById("comments-container").innerHTML = tree.length
+      ? tree.map((n) => renderNode(n, 0)).join("")
+      : `<p class="text-sm text-neutral-400 dark:text-neutral-500 text-center py-8">No comments yet — be the first!</p>`;
   }
 
   // ---------- Post / Update ----------
-  async function postOrUpdate(content, editId, parentId, name) {
+  async function postOrUpdate(content, editId, parentId, name, email) {
+    // Persist email locally so we pre-fill next time
+    if (email) { savedEmail = email; localStorage.setItem("commenter_email", email); }
+
     if (editId) {
       await supabase.from("comments").update({ content }).eq("id", editId);
     } else {
-      const { data, error } = await supabase
-        .from("comments")
-        .insert([
-          {
-            post_slug: POST_SLUG,
-            content,
-            parent_id: parentId || null,
-            name: name || "Anonymous",
-            user_id: anonId,
-          },
-        ])
-        .select()
-        .single();
+      // notify_email column: add `notify_email text` to your comments table.
+      // A Supabase Edge Function / pg trigger can email parent.notify_email on insert.
+      await supabase.from("comments").insert([{
+        post_slug: POST_SLUG,
+        content,
+        parent_id: parentId || null,
+        name: name || "Anonymous",
+        user_id: anonId,
+        notify_email: email || null,
+      }]).select().single();
     }
     await loadComments();
   }
@@ -206,8 +362,7 @@
     const { data } = await supabase.from("comments").select("reactions").eq("id", id).single();
     const reactions = data?.reactions || {};
     const active = hasReacted(id, emoji);
-    const delta = active ? -1 : 1;
-    reactions[emoji] = Math.max(0, (reactions[emoji] || 0) + delta);
+    reactions[emoji] = Math.max(0, (reactions[emoji] || 0) + (active ? -1 : 1));
     await supabase.from("comments").update({ reactions }).eq("id", id);
     setReacted(id, emoji, !active);
     await loadComments();
@@ -220,108 +375,216 @@
     await loadComments();
   }
 
-  // ---------- Edit / Reply ----------
-  function startEdit(id, encoded) {
-    const content = decodeURIComponent(encoded);
-    document.getElementById("comment-input").value = content;
-    document.getElementById("edit-id").value = id;
-    document.getElementById("parent-id").value = "";
-    document.getElementById("comment-submit").innerText = "Update Comment";
-    document.getElementById("cancel-edit").classList.remove("hidden");
-  }
-
-  function startReply(parentId) {
-    document.getElementById("parent-id").value = parentId;
-    document.getElementById("edit-id").value = "";
-    document.getElementById("comment-submit").innerText = "Post Reply";
-    document.getElementById("cancel-edit").classList.remove("hidden");
-    document.getElementById("comment-input").focus();
-  }
-
+  // ---------- Toggle replies (animated) ----------
   function toggleReplies(id) {
     const btn = document.querySelector(`[data-action="toggle-replies"][data-id="${id}"]`);
     const box = document.getElementById("replies-" + id);
+    const chevron = document.getElementById("chevron-" + id);
+    if (!btn || !box) return;
+
     const open = btn.dataset.open === "1";
     if (open) {
-      box.classList.add("hidden");
-      btn.innerText = btn.innerText.replace("Hide", "Show");
+      // Collapse: snapshot current height, then animate to 0
+      box.style.maxHeight = box.scrollHeight + "px";
+      requestAnimationFrame(() => {
+        box.classList.add("collapsed");
+        box.style.maxHeight = "0";
+      });
+      if (chevron) chevron.classList.add("-rotate-90");
       btn.dataset.open = "0";
     } else {
-      box.classList.remove("hidden");
-      btn.innerText = btn.innerText.replace("Show", "Hide");
+      // Expand
+      box.classList.remove("collapsed");
+      box.style.maxHeight = box.scrollHeight + "px";
+      // After transition, let it be auto so content can grow
+      box.addEventListener("transitionend", () => {
+        if (btn.dataset.open === "1") box.style.maxHeight = "9999px";
+      }, { once: true });
+      if (chevron) chevron.classList.remove("-rotate-90");
       btn.dataset.open = "1";
+    }
+  }
+
+  // ---------- Desktop form open/close ----------
+  function openDesktopForm(context = null) {
+    document.getElementById("desktop-form-trigger").classList.add("hidden");
+    document.getElementById("comment-form").classList.remove("hidden");
+    const banner = document.getElementById("form-context-banner");
+    const label = document.getElementById("form-context-label");
+    if (context) { label.textContent = context; banner.classList.remove("hidden"); }
+    else banner.classList.add("hidden");
+    // Pre-fill saved email
+    const emailInput = document.getElementById("comment-email");
+    if (emailInput && savedEmail && !emailInput.value) emailInput.value = savedEmail;
+    document.getElementById("comment-input").focus();
+  }
+
+  function closeDesktopForm() {
+    document.getElementById("comment-form").classList.add("hidden");
+    document.getElementById("desktop-form-trigger").classList.remove("hidden");
+    document.getElementById("form-context-banner").classList.add("hidden");
+    document.getElementById("comment-form").reset();
+    document.getElementById("edit-id").value = "";
+    document.getElementById("parent-id").value = "";
+    document.getElementById("comment-submit").textContent = "Post Comment";
+  }
+
+  // ---------- Mobile sheet ----------
+  const sheet = document.getElementById("mobile-sheet");
+  const backdrop = document.getElementById("mobile-sheet-backdrop");
+  const sheetTitle = document.getElementById("mobile-sheet-title");
+
+  function openSheet(title = "New Comment") {
+    sheetTitle.textContent = title;
+    sheet.classList.remove("translate-y-full");
+    backdrop.classList.remove("opacity-0", "pointer-events-none");
+    document.body.style.overflow = "hidden";
+    // Pre-fill saved email
+    const emailInput = document.getElementById("mobile-comment-email");
+    if (emailInput && savedEmail && !emailInput.value) emailInput.value = savedEmail;
+    setTimeout(() => document.getElementById("mobile-comment-input")?.focus(), 350);
+  }
+
+  function closeSheet() {
+    sheet.classList.add("translate-y-full");
+    backdrop.classList.add("opacity-0", "pointer-events-none");
+    document.body.style.overflow = "";
+    document.getElementById("mobile-comment-form").reset();
+    document.getElementById("mobile-edit-id").value = "";
+    document.getElementById("mobile-parent-id").value = "";
+    document.getElementById("mobile-comment-submit").textContent = "Post Comment";
+    sheetTitle.textContent = "New Comment";
+  }
+
+  // Swipe to dismiss
+  let touchStartY = 0;
+  sheet.addEventListener("touchstart", (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+  sheet.addEventListener("touchend", (e) => { if (e.changedTouches[0].clientY - touchStartY > 80) closeSheet(); }, { passive: true });
+
+  document.getElementById("mobile-sheet-close")?.addEventListener("click", closeSheet);
+  backdrop?.addEventListener("click", closeSheet);
+  document.getElementById("mobile-comment-trigger")?.addEventListener("click", () => openSheet("New Comment"));
+
+  // ---------- Edit / Reply ----------
+  function startEdit(id, encoded) {
+    const content = decodeURIComponent(encoded);
+    if (window.innerWidth < 640) {
+      document.getElementById("mobile-comment-input").value = content;
+      document.getElementById("mobile-edit-id").value = id;
+      document.getElementById("mobile-parent-id").value = "";
+      document.getElementById("mobile-comment-submit").textContent = "Update Comment";
+      openSheet("Edit Comment");
+    } else {
+      document.querySelectorAll("[id^='inline-reply-']").forEach(el => el.remove());
+      document.getElementById("comment-input").value = content;
+      document.getElementById("edit-id").value = id;
+      document.getElementById("parent-id").value = "";
+      document.getElementById("comment-submit").textContent = "Update Comment";
+      openDesktopForm("Editing comment");
+    }
+  }
+
+  function startReply(parentId, parentName) {
+    if (window.innerWidth < 640) {
+      document.getElementById("mobile-parent-id").value = parentId;
+      document.getElementById("mobile-edit-id").value = "";
+      document.getElementById("mobile-comment-submit").textContent = "Post Reply";
+      const title = parentName && parentName !== "Anonymous" ? `Reply to ${parentName}` : "Reply";
+      openSheet(title);
+    } else {
+      document.querySelectorAll("[id^='inline-reply-']").forEach(el => el.remove());
+      document.getElementById("parent-id").value = "";
+      closeDesktopForm();
+      const wrap = document.getElementById(`inline-reply-wrap-${parentId}`);
+      if (wrap) {
+        wrap.innerHTML = inlineReplyFormHTML(parentId, parentName);
+        // Pre-fill saved email in the inline form too
+        const emailInput = document.getElementById(`inline-reply-email-${parentId}`);
+        if (emailInput && savedEmail) emailInput.value = savedEmail;
+        const input = document.getElementById(`inline-reply-input-${parentId}`);
+        setTimeout(() => input?.focus(), 50);
+      }
     }
   }
 
   // ---------- Event delegation ----------
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("comment-form");
-    const cancelBtn = document.getElementById("cancel-edit");
+    const mobileForm = document.getElementById("mobile-comment-form");
     const container = document.getElementById("comments-container");
+    if (!container) { console.warn("Comments container not found."); return; }
 
-    if (!form || !container) {
-      console.warn("Comments form or container not found on this page.");
-      return;
-    }
+    document.getElementById("desktop-form-trigger")?.addEventListener("click", () => openDesktopForm());
+    document.getElementById("desktop-form-close")?.addEventListener("click", closeDesktopForm);
+    document.getElementById("cancel-edit")?.addEventListener("click", closeDesktopForm);
 
-    form.addEventListener("submit", async (e) => {
+    form?.addEventListener("submit", async (e) => {
       e.preventDefault();
       const val = document.getElementById("comment-input").value.trim();
       const editId = document.getElementById("edit-id").value;
       const parentId = document.getElementById("parent-id").value;
-      const name = document.getElementById("comment-name").value.trim() || "Anonymous";
+      const name = document.getElementById("comment-name").value.trim();
+      const email = document.getElementById("comment-email").value.trim();
       if (!val) return;
-      await postOrUpdate(val, editId, parentId, name);
-      form.reset();
-      document.getElementById("edit-id").value = "";
-      document.getElementById("parent-id").value = "";
-      document.getElementById("comment-submit").innerText = "Post Comment";
-      cancelBtn.classList.add("hidden");
+      const btn = document.getElementById("comment-submit");
+      btn.disabled = true; btn.textContent = "Posting…";
+      await postOrUpdate(val, editId, parentId, name, email);
+      closeDesktopForm();
+      btn.disabled = false;
     });
 
-    cancelBtn?.addEventListener("click", () => {
-      form.reset();
-      document.getElementById("edit-id").value = "";
-      document.getElementById("parent-id").value = "";
-      document.getElementById("comment-submit").innerText = "Post Comment";
-      cancelBtn.classList.add("hidden");
+    mobileForm?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const val = document.getElementById("mobile-comment-input").value.trim();
+      const editId = document.getElementById("mobile-edit-id").value;
+      const parentId = document.getElementById("mobile-parent-id").value;
+      const name = document.getElementById("mobile-comment-name").value.trim();
+      const email = document.getElementById("mobile-comment-email").value.trim();
+      if (!val) return;
+      const btn = document.getElementById("mobile-comment-submit");
+      btn.disabled = true; btn.textContent = "Posting…";
+      await postOrUpdate(val, editId, parentId, name, email);
+      closeSheet();
+      btn.disabled = false;
     });
 
-    container.addEventListener("click", (e) => {
+    container.addEventListener("click", async (e) => {
       const btn = e.target.closest("button[data-action]");
       if (!btn) return;
       const id = btn.dataset.id;
       switch (btn.dataset.action) {
-        case "react":
-          toggleReaction(id, btn.dataset.emoji);
+        case "react": toggleReaction(id, btn.dataset.emoji); break;
+        case "edit": startEdit(id, btn.dataset.content); break;
+        case "reply": startReply(id, btn.dataset.name); break;
+        case "delete": removeComment(id); break;
+        case "toggle-replies": toggleReplies(id); break;
+        case "cancel-inline-reply": {
+          const wrap = document.getElementById(`inline-reply-wrap-${btn.dataset.parent}`);
+          if (wrap) wrap.innerHTML = "";
           break;
-        case "edit":
-          startEdit(id, btn.dataset.content);
+        }
+        case "submit-inline-reply": {
+          const parentId = btn.dataset.parent;
+          const input = document.getElementById(`inline-reply-input-${parentId}`);
+          const nameInput = document.getElementById(`inline-reply-name-${parentId}`);
+          const emailInput = document.getElementById(`inline-reply-email-${parentId}`);
+          const val = input?.value.trim();
+          if (!val) { input?.focus(); break; }
+          btn.disabled = true; btn.textContent = "Posting…";
+          await postOrUpdate(val, "", parentId, nameInput?.value.trim(), emailInput?.value.trim());
           break;
-        case "reply":
-          startReply(id);
-          break;
-        case "delete":
-          removeComment(id);
-          break;
-        case "toggle-replies":
-          toggleReplies(id);
-          break;
+        }
       }
     });
 
     loadComments();
   });
 
-  // ---------- Realtime sync ----------
+  // ---------- Realtime ----------
   supabase
     .channel("comments-" + POST_SLUG)
-    .on("postgres_changes", {
-      event: "*",
-      schema: "public",
-      table: "comments",
-      filter: `post_slug=eq.${POST_SLUG}`,
-    }, () => loadComments())
+    .on("postgres_changes", { event: "*", schema: "public", table: "comments", filter: `post_slug=eq.${POST_SLUG}` },
+      () => loadComments())
     .subscribe();
 
   loadComments();

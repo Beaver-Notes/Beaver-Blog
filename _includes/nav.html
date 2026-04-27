@@ -1,8 +1,11 @@
 {% include search.html %}
-<nav class="bg-transparent">
+<div class="sticky top-3 z-10 px-3 sm:px-6">
+<nav
+  class="max-w-7xl mx-auto bg-white/80 dark:bg-neutral-800/80 backdrop-blur-md border border-neutral-200/70 dark:border-neutral-700/60 shadow-md shadow-neutral-900/5 dark:shadow-neutral-900/30 rounded-2xl"
+>
   <div id="lights" class="hidden"></div>
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
+  <div class="px-4 sm:px-6">
+    <div class="relative flex h-14 items-center justify-between">
       <div class="flex justify-center sm:items-stretch sm:justify-start">
         <a href="{{ site.baseurl }}/" class="flex shrink-0 items-center">
           <img
@@ -11,59 +14,6 @@
           />
           <p class="ml-4 dark:text-gray-100 font-bold">Beaver Blog</p>
         </a>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <a
-              href="https://bsky.app/profile/beavernotes.com"
-              class="group rounded-md dark:text-neutral-100 hover:bg-blue-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i
-                class="fa-brands fa-bluesky fa-xl group-hover:text-blue-400"
-              ></i>
-            </a>
-
-            <a
-              href="https://mastodon.social/@Beavernotes"
-              class="group rounded-md dark:text-neutral-100 hover:bg-[#6364FF] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i
-                class="fa-brands fa-mastodon fa-xl group-hover:text-[#6364FF]"
-              ></i>
-            </a>
-
-            <a
-              href="https://www.reddit.com/r/BeaverNotes"
-              class="group rounded-md dark:text-neutral-100 hover:bg-[#FF4500] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i
-                class="fa-brands fa-reddit fa-xl group-hover:text-[#FF4500]"
-              ></i>
-            </a>
-
-            <a
-              href="https://x.com/BeaverNotes"
-              class="group rounded-md dark:text-neutral-100 hover:bg-[#1DA1F5] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i
-                class="fa-brands fa-twitter fa-xl group-hover:text-[#1DA1F2]"
-              ></i>
-            </a>
-
-            <a
-              href="https://docs.beavernotes.com"
-              class="group rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i class="fa-solid fa-book fa-xl group-hover:text-amber-400"></i>
-            </a>
-
-            <a
-              href="{{site.url}}/feed.xml"
-              class="group rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-            >
-              <i class="fa-solid fa-rss fa-xl group-hover:text-amber-400"></i>
-            </a>
-          </div>
-        </div>
       </div>
       <!-- Search Icon Button -->
       <button
@@ -87,60 +37,6 @@
         ></i>
       </button>
     </div>
-
-    <!-- Share Buttons Container -->
-    <div class="sm:hidden">
-      <div class="flex justify-center">
-        <a
-          href="https://bsky.app/profile/beavernotes.com"
-          class="group rounded-md dark:text-neutral-100 hover:bg-blue-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-brands fa-bluesky fa-xl group-hover:text-blue-400"></i>
-        </a>
-
-        <a
-          href="https://mastodon.social/@Beavernotes"
-          class="group rounded-md dark:text-neutral-100 hover:bg-[#6364FF] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-brands fa-mastodon fa-xl group-hover:text-[#6364FF]"></i>
-        </a>
-
-        <a
-          href="https://www.reddit.com/r/BeaverNotes"
-          class="group rounded-md dark:text-neutral-100 hover:bg-[#FF4500] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-brands fa-reddit fa-xl group-hover:text-[#FF4500]"></i>
-        </a>
-
-        <a
-          href="https://x.com/BeaverNotes"
-          class="group rounded-md dark:text-neutral-100 hover:bg-[#1DA1F5] hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-brands fa-twitter fa-xl group-hover:text-[#1DA1F2]"></i>
-        </a>
-
-        <a
-          href="https://docs.beavernotes.com"
-          class="group rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-solid fa-book fa-xl group-hover:text-amber-400"></i>
-        </a>
-
-        <a
-          href="{{site.url}}/feed.xml"
-          class="group rounded-md dark:text-neutral-100 hover:bg-amber-400 hover:bg-opacity-20 p-2 text-sm font-medium dark:text-white"
-        >
-          <i class="fa-solid fa-rss fa-xl group-hover:text-amber-400"></i>
-        </a>
-      </div>
-    </div>
-
-    <ul
-      id="results-container"
-      class="fixed right-0 z-40 w-80 bg-neutral-100 dark:bg-neutral-700 dark:text-neutral-100 rounded-xl overflow-auto"
-    >
-      <li></li>
-    </ul>
   </div>
   <script>
     function toggleDarkMode() {
@@ -167,7 +63,7 @@
       const icon = document.getElementById("dark-mode-icon");
       const savedTheme = localStorage.getItem("theme");
       const systemPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
 
       if (savedTheme) {
@@ -230,3 +126,4 @@
     });
   </script>
 </nav>
+</div>

@@ -7,7 +7,7 @@ github: Daniele-rolli
 label:
   - Release
   - Community
-image: assets/img/2025/2025-12-04.png
+image: /assets/img/2025/2025-12-04.png
 excerpt_separator: <!--more-->
 ---
 

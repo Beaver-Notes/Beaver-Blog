@@ -1,54 +1,43 @@
 <div
   id="search-container"
-  class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity w-screen h-screen hidden flex z-50"
+  class="fixed inset-0 bg-slate-900/25 backdrop-blur transition-opacity w-screen h-screen hidden flex z-50 items-start justify-center pt-16 sm:pt-24"
 >
-  <div
-    role="dialog"
-    aria-labelledby="search-dialog-title"
-    aria-hidden="true"
-    class="fixed inset-0 mx-4 z-50 flex items-start justify-center pt-16 sm:pt-24"
-  >
+  <div class="w-full max-w-xl px-4">
+    <!-- Search Bar -->
     <div
-      class="bg-white dark:bg-neutral-700 w-full max-w-xl rounded-lg shadow-xl relative"
+      class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-lg"
     >
-      <div
-        class="p-3 border-b border-b-neutral-100 dark:border-b-neutral-700 outline-none relative flex items-center justify-between"
-      >
-        <!-- Search Input -->
-        <input
-          id="search-input"
-          type="text"
-          class="flex-1 text-sm bg-transparent outline-none border-none placeholder-neutral-500 dark:placeholder-neutral-300 dark:text-neutral-300 focus:ring-0"
-          placeholder="Type to search..."
-          aria-label="Search input"
-        />
-        
-        <!-- Close Button (visible on all screens) -->
-        <button onclick="closeSearch()">
-          <i
-            class="fa-solid fa-close p-2 text-neutral-600 dark:text-neutral-100 hover:text-amber-400 text-lg cursor-pointer"
-          ></i>
-        </button>
-      </div>
-      <ul id="results-container" class="pb-2"></ul>
+      <i class="fa-solid fa-magnifying-glass text-neutral-400"></i>
+      <input
+        id="search-input"
+        type="text"
+        class="flex-1 bg-transparent outline-none text-sm dark:text-neutral-100 placeholder:text-neutral-400"
+        placeholder="Type to search..."
+        aria-label="Search input"
+      />
+      <button onclick="clearSearch()">
+        <i class="fa-solid fa-xmark text-neutral-500"></i>
+      </button>
+    </div>
+
+    <!-- Results Panel -->
+    <div
+      id="results-container"
+      class="mt-2 rounded-xl overflow-hidden bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-lg hidden"
+    >
+      <!-- SimpleJekyllSearch will populate <ul> -->
+      <ul class="py-1.5 no-scrollbar"></ul>
     </div>
   </div>
 </div>
 
 <script>
-  function closeSearch() {
-    const searchContainer = document.getElementById("search-container");
-    const searchIcon = document.getElementById("search-icon");
-
-    if (searchContainer) {
-      searchContainer.classList.add("hidden");
-    } else {
-      console.error("Search container not found");
-    }
-
-    if (searchIcon) {
-      searchIcon.classList.remove("hidden"); // Show search icon again
-    }
+  function clearSearch() {
+    const searchInput = document.getElementById("search-input");
+    const resultsContainer = document.getElementById("results-container");
+    searchInput.value = "";
+    resultsContainer.classList.add("hidden");
+    resultsContainer.querySelector("ul").innerHTML = "";
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -57,48 +46,44 @@
     const searchContainer = document.getElementById("search-container");
     const searchIcon = document.getElementById("search-icon");
 
-    // Add ESC key listener
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        closeSearch();
-      }
-    });
-
-    // Hide search icon when search is open
     if (searchIcon) {
       searchIcon.addEventListener("click", () => {
         searchContainer.classList.remove("hidden");
-        searchIcon.classList.add("hidden"); // Hide search icon
+        searchIcon.classList.add("hidden");
+        searchInput.focus();
       });
     }
 
     // Initialize SimpleJekyllSearch
-    const jsonPath = "{{ site.baseurl }}/assets/search.json";
-
-    if (!searchInput || !resultsContainer) {
-      console.error("Search input or results container not found");
-      return;
-    }
-
     SimpleJekyllSearch({
       searchInput: searchInput,
-      resultsContainer: resultsContainer,
+      resultsContainer: resultsContainer.querySelector("ul"),
       searchResultTemplate: `
-        <li>
-          <a href="{url}" class="flex items-center p-2 dark:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-600">
-            <div class="flex flex-row">
-              <img src="{{ site.baseurl }}/{image}" alt="{title}" class="w-auto h-12 rounded" />
-              <div class="flex flex-col ml-2">
-              <p class="text-sm font-bold">{title}</p>
-              <p class="text-sm">{description}</p>
-              </div>
-            </div>
-          </a>
-        </li>`,
-      noResultsText:
-        "<li class='p-4 text-neutral-500 dark:text-neutral-100'>No Result Found</li>",
-      json: jsonPath,
+      <li class="flex items-start gap-3 p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg cursor-pointer">
+        <a href="{url}" class="flex-1 flex items-start gap-3">
+          <img src="{image}" alt="{title}" class="w-12 h-12 rounded object-cover flex-shrink-0">
+          <div class="flex flex-col">
+            <p class="text-sm font-bold text-neutral-800 dark:text-neutral-100 truncate">{title}</p>
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 truncate">{description}</p>
+          </div>
+        </a>
+      </li>
+    `,
+      noResultsText: `<li class='px-4 py-6 text-center text-neutral-400'>No results found</li>`,
+      json: "{{ site.baseurl }}/assets/search.json",
+    });
+
+    // Show/hide results container dynamically
+    searchInput.addEventListener("input", () => {
+      resultsContainer.classList.toggle("hidden", !searchInput.value.trim());
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        clearSearch();
+        searchContainer.classList.add("hidden");
+        if (searchIcon) searchIcon.classList.remove("hidden");
+      }
     });
   });
 </script>

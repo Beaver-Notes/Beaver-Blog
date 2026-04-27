@@ -6,7 +6,7 @@ author: "Daniele Rolli"
 github: Daniele-rolli
 label: 
  - Security
-image: assets/img/2024/2024-02-24.webp
+image: /assets/img/2024/2024-02-24.webp
 excerpt_separator: <!--more-->
 ---
 

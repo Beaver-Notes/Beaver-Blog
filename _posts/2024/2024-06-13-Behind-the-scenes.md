@@ -7,7 +7,7 @@ github: Daniele-rolli
 image: https://blog.elementary.io/images/updates-for-august-2024/videos.png
 label:
   - Community
-image: assets/img/2024/2024-06-13.png
+image: /assets/img/2024/2024-06-13.png
 excerpt_separator: <!--more-->
 ---
 

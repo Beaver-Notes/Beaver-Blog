@@ -6,7 +6,7 @@ author: "Daniele Rolli"
 github: Daniele-rolli
 label:
   - Community
-image: assets/img/2026/2026-01-10.png
+image: /assets/img/2026/2026-01-10.png
 excerpt_separator: <!--more-->
 ---
 

@@ -1,30 +1,209 @@
 ---
-layout: default
+layout: pages
+pagination:
+  enabled: true
 ---
 
-<h1>Latest Articles</h1>
-<div class="articles">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    <p>{{ post.excerpt }}</p>
-  </div>
-  {% endfor %}
-</div>
-
-<div class="pagination">
-  {% if paginator.previous_page %}
-  <a href="{{ paginator.previous_page_path }}">Previous</a>
-  {% endif %}
-  {% for page in (1..paginator.total_pages) %}
-  <a
-    href="{{ paginator.base_path }}{% if page > 1 %}/page{{ page }}{% endif %}"
-    class="{% if page == paginator.page %}current{% endif %}"
+<!doctype html>
+<html lang="en">
+  {% include head.html %}
+  <body
+    class="bg-amber-100/10 text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors duration-200"
   >
-    {{ page }}
-  </a>
-  {% endfor %}
-  {% if paginator.next_page %}
-  <a href="{{ paginator.next_page_path }}">Next</a>
-  {% endif %}
-</div>
+    {% include nav.html %}
+
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 pt-16 pb-12">
+      <div class="flex flex-col md:flex-row md:items-start gap-8">
+        <!-- Social Links Sidebar -->
+        <nav class="hidden md:flex flex-col gap-3 pt-2 min-w-[140px]">
+          <a
+            href="https://github.com/Beaver-Notes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-500 dark:text-neutral-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
+            GitHub
+          </a>
+          <a
+            href="https://x.com/BeaverNotes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-500 dark:text-neutral-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              />
+            </svg>
+            X / Twitter
+          </a>
+          <a
+            href="https://bsky.app/profile/beavernotes.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-500 dark:text-neutral-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.785 2.627 3.59 3.501 6.204 3.254-3.643.422-6.286 2.508-3.53 6.326C6.375 24.263 11.128 21.146 12 17.3c.872 3.845 5.625 6.963 8.702 2.527 2.756-3.818.112-5.904-3.53-6.326 2.613.247 5.42-.627 6.204-3.254.246-.828.624-5.789.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8z"
+              />
+            </svg>
+            Bluesky
+          </a>
+          <a
+            href="https://mastodon.social/@Beavernotes"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-gray-500 dark:text-neutral-400 hover:text-amber-500 dark:hover:text-amber-400 transition-colors flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.547c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054 19.735 19.735 0 0 0 4.581.53h.344c1.587-.001 3.19-.12 4.748-.423 .038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zM19.429 15.24h-2.635v-6.58c0-1.39-.58-2.097-1.746-2.097-1.286 0-1.931.838-1.931 2.493v3.597h-2.62v-3.597c0-1.655-.645-2.493-1.931-2.493-1.165 0-1.746.706-1.746 2.097v6.58H4.185V8.472c0-1.39.355-2.494 1.067-3.314.735-.82 1.698-1.24 2.893-1.24 1.382 0 2.429.528 3.13 1.585l.674 1.126.675-1.126c.701-1.057 1.748-1.585 3.13-1.585 1.195 0 2.158.42 2.893 1.24.712.82 1.067 1.924 1.067 3.314v6.769z"
+              />
+            </svg>
+            Mastodon
+          </a>
+        </nav>
+
+        <!-- Hero Text -->
+        <div class="flex-1">
+          <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
+          >
+            Stories, guides and insights<br class="hidden sm:block" />
+            from your friends at<br class="hidden sm:block" />
+            <span class="text-amber-500 dark:text-amber-400">Beaver Notes</span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Section -->
+    <main id="latest" class="container mx-auto px-4 pb-12">
+      <h2
+        class="text-lg font-semibold text-gray-900 dark:text-neutral-100 mb-5"
+      >
+        Latest
+      </h2>
+
+      {% assign all_posts = paginator.posts %}
+
+      <!-- Featured Row: 3 cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {% for post in all_posts limit:3 %}
+        <a
+          href="{{ post.url }}"
+          class="group rounded-xl bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 hover:border-amber-400 dark:hover:border-amber-500 transition-all duration-300 flex flex-col overflow-hidden"
+        >
+          <div class="overflow-hidden">
+            <img
+              src="{{ post.image | relative_url }}"
+              alt="{{ post.title }}"
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3
+              class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug"
+            >
+              {{ post.title }}
+            </h3>
+            <div
+              class="mt-auto flex items-center gap-2 text-xs text-gray-500 dark:text-neutral-400"
+            >
+              <span>{{ post.author }}</span>
+              <span class="text-gray-300 dark:text-neutral-600">/</span>
+              {% for label in post.label limit:1 %}
+              <span>{{ label }}</span>
+              {% endfor %}
+              <span class="text-gray-300 dark:text-neutral-600">/</span>
+              <span>{{ post.date | date: "%b %-d, %Y" }}</span>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+      <!-- Stories Section -->
+      {% assign remaining_count = all_posts.size | minus: 3 %} {% if
+      remaining_count > 0 %}
+      <div id="stories" class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-neutral-100">
+          Stories
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for post in all_posts %} {% if forloop.index > 3 %}
+        <a
+          href="{{ post.url }}"
+          class="group rounded-xl bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 hover:border-amber-400 dark:hover:border-amber-500 transition-all duration-300 flex flex-col overflow-hidden"
+        >
+          <div class="overflow-hidden">
+            <img
+              src="{{ post.image | relative_url }}"
+              alt="{{ post.title }}"
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="p-4 flex flex-col flex-1">
+            <h3
+              class="text-base font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors leading-snug"
+            >
+              {{ post.title }}
+            </h3>
+            <p
+              class="text-sm text-gray-500 dark:text-neutral-400 line-clamp-2 mb-3"
+            >
+              {{ post.excerpt | strip_html | truncatewords: 20 }}
+            </p>
+            <div class="mt-auto flex items-center gap-3">
+              <div class="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+                {% include avatar.html %}
+              </div>
+              <div class="leading-tight">
+                <p class="text-xs text-gray-700 dark:text-neutral-300">
+                  {{ post.author }}
+                </p>
+                <p class="text-xs text-gray-400 dark:text-neutral-500">
+                  {{ post.date | date: "%b %-d, %Y" }} &bull; {% assign words =
+                  post.content | strip_html | number_of_words %} {{ words |
+                  divided_by: 200 | plus: 1 }} min read
+                </p>
+              </div>
+            </div>
+          </div>
+        </a>
+        {% endif %} {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- Pagination -->
+      {% if paginator.total_pages > 1 %}
+      <div class="flex justify-center gap-3 mt-10">
+        {% if paginator.previous_page %}
+        <a
+          class="px-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-600 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-neutral-700 hover:text-gray-900 dark:hover:text-white transition-colors"
+          href="{{ paginator.previous_page_path | prepend: site.baseurl }}"
+          >&larr; Newer</a
+        >
+        {% endif %} {% if paginator.next_page %}
+        <a
+          class="px-4 py-2 text-sm rounded-lg bg-gray-100 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 text-gray-600 dark:text-neutral-300 hover:bg-gray-200 dark:hover:bg-neutral-700 hover:text-gray-900 dark:hover:text-white transition-colors"
+          href="{{ paginator.next_page_path | prepend: site.baseurl }}"
+          >Older &rarr;</a
+        >
+        {% endif %}
+      </div>
+      {% endif %}
+    </main>
+
+    {% include footer.html %}
+  </body>
+</html>
