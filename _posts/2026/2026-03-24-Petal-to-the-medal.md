@@ -23,24 +23,51 @@ Last month, we asked the community whether switching to **Tauri** would be a goo
 
 Here’s the quick comparison: The current Electron-based bundle is about **500 MB** on macOS, while the Tauri version is only **30 MB**. When it comes to RAM usage, Electron consumes around **666.3 MB** when opening a note, whereas Tauri uses roughly half that amount, at **345.6 MB**.
 
-<div class="flex flex-col items-start align-center gap-2">
-  <div>
-    <div class="text-2xl font-semibold">Bundle Size</div>
-    <div>Electron: 500 MB</div>
-    <div style="background:#ccc; width:500px; height:10px;"></div>
-    <div>Tauri: 30 MB</div>
-    <div style="background:#999; width:30px; height:10px;"></div>
+<div style="padding: 1rem 0;">
+  <h2 class="sr-only">Bundle size and RAM usage comparison between Electron and Tauri</h2>
+
+  <p style="font-size: 13px; color: var(--color-text-secondary); margin: 0 0 1.25rem;">Lower is better. Tests conducted on macOS 26.4.</p>
+
+  <div style="margin-bottom: 1.5rem;">
+    <p style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">Bundle size</p>
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+      <span style="font-size: 13px; color: var(--color-text-secondary); width: 72px; text-align: right; flex-shrink: 0;">Electron</span>
+      <div style="flex: 1; background: var(--color-background-secondary); border-radius: 4px; height: 20px; overflow: hidden;">
+        <div style="width: 100%; height: 100%; background: #888780; border-radius: 4px;"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); width: 48px; flex-shrink: 0;">500 MB</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 13px; color: var(--color-text-secondary); width: 72px; text-align: right; flex-shrink: 0;">Tauri</span>
+      <div style="flex: 1; background: var(--color-background-secondary); border-radius: 4px; height: 20px; overflow: hidden;">
+        <div style="width: 6%; height: 100%; background: #1D9E75; border-radius: 4px;"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); width: 48px; flex-shrink: 0;">30 MB</span>
+    </div>
+
   </div>
 
   <div>
-    <div class="text-2xl font-semibold">RAM Usage</div>
-    <div>Electron: 666.3 MB</div>
-    <div style="background:#ccc; width:666px; height:10px;"></div>
-    <div>Tauri: 345.6 MB</div>
-    <div style="background:#999; width:345px; height:10px;"></div>
-  </div>
-  <div class="w-full text-center">
-    <p class="text-sm">Lower is better. Tests were conducted on macOS 26.4.</p>
+    <p style="font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin: 0 0 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;">RAM usage (opening a note)</p>
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+      <span style="font-size: 13px; color: var(--color-text-secondary); width: 72px; text-align: right; flex-shrink: 0;">Electron</span>
+      <div style="flex: 1; background: var(--color-background-secondary); border-radius: 4px; height: 20px; overflow: hidden;">
+        <div style="width: 100%; height: 100%; background: #888780; border-radius: 4px;"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); width: 64px; flex-shrink: 0;">666.3 MB</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span style="font-size: 13px; color: var(--color-text-secondary); width: 72px; text-align: right; flex-shrink: 0;">Tauri</span>
+      <div style="flex: 1; background: var(--color-background-secondary); border-radius: 4px; height: 20px; overflow: hidden;">
+        <div style="width: 52%; height: 100%; background: #1D9E75; border-radius: 4px;"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary); width: 64px; flex-shrink: 0;">345.6 MB</span>
+    </div>
+
   </div>
 </div>
 
