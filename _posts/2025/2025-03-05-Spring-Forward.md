@@ -14,7 +14,7 @@ It's finally March, and that means a new *monthly* report on the state of Beaver
 
 # There's a new drawing block in town  
 
-Since the [last article]({% post_url 2025-02-15-The final puzzle piece %}), we have been working on a new drawing component that replaces [*d3.js*](https://github.com/d3/d3) with [perfect-freehand](https://github.com/steveruizok/perfect-freehand), so now we’re not using a hammer to screw in a screw anymore.  
+Since the [last article]({% post_url 2025-02-15-The-final-puzzle-piece %}), we have been working on a new drawing component that replaces [*d3.js*](https://github.com/d3/d3) with [perfect-freehand](https://github.com/steveruizok/perfect-freehand), so now we’re not using a hammer to screw in a screw anymore.  
 
 Perfect-freehand is the underlying technology behind projects like [TLDRAW](https://github.com/tldraw/tldraw), which showcases just how powerful and flexible this library is. *Why not TLDRAW, then?* We initially considered using it, but since it's a React component, it wouldn’t integrate well with the desktop app, which is built in Vue. Additionally, Perfect-freehand allows for more flexibility on both the UI and logic sides.  
 
