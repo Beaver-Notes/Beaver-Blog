@@ -38,6 +38,9 @@ jobs:
         with:
           enable_cache: true
 
+      - name: Build CSS with PostCSS
+        run: npx postcss assets/main.css -o _site/assets/main.css
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

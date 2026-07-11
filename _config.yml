@@ -23,17 +23,17 @@ defaults:
 timezone: Europe/Rome
 markdown: kramdown
 include:
-  - _post
+  - _posts
 
 plugins:
   - jekyll-paginate-v2
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-postcss
   - jemoji
 
-postcss:
-  cache: false
+exclude:
+  - assets/main.css
+  - assets/main.css.map
 
 pagination:
   

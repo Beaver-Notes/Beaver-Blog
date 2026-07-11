@@ -4,17 +4,15 @@ module.exports = {
     "./_drafts/**/*.html",
     "./_includes/**/*.html",
     "./_layouts/**/*.html",
-    "./_posts/*.md",
+    "./_posts/**/*.md",
     "./*.md",
     "./*.html",
   ],
   theme: {
-    theme: {
-      extend: {
-        fontFamily: {
-          sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-          mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        },
+    extend: {
+      fontFamily: {
+        sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
     },
   },

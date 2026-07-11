@@ -15,7 +15,7 @@ Christmas is almost here, and we’ve got some gifts for you! 🎁 <!--more--> O
 
 # New Additions Arriving This Season
 
-You probably noticed that 4.2.0 was originally planned for September. We decided not to rush it, on top of that I’ve personally been swamped and didn’t have as much time to get my hands on Beaver’s code as I wanted. After tracking down a bunch of bugs, running tests, and fine tuning everything, we’re finally ready to ship this release. Below is a quick overview of the what's new. If you want the full breakdown, you can check out the [September article]({% post_url 2025-09-03-A-small-step-for-a-beaver %}). Here’s what’s new:
+You probably noticed that 4.2.0 was originally planned for September. We decided not to rush it, on top of that I’ve personally been swamped and didn’t have as much time to get my hands on Beaver’s code as I wanted. After tracking down a bunch of bugs, running tests, and fine tuning everything, we’re finally ready to ship this release. Below is a quick overview of the what's new. If you want the full breakdown, you can check out the [September article]({% post_url 2025/2025-09-03-A-small-step-for-a-beaver %}). Here’s what’s new:
 
 * Folders to organize your notes better
 * Upgraded to tiptap 3 and Electron 38
