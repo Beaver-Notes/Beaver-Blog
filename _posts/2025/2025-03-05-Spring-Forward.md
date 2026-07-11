@@ -38,8 +38,8 @@ Frankly, now I'm happier with how Beaver handles sync. Now comes the hard part, 
 
 The road ahead is bumpy, and the finish line is far, but we will get there. The important thing is, Beaver is not going anywhere, and although some days it might seem like nothing is being done backstage, there's always someone coding away, even if their work is not showing on GitHub.  
 
-*...you might be asking what you can do to help?* Well, there’s a lot, actually! Of course, donations are welcome, but if you are able to code, contributions, feedback, translations, and even help with the docs and blog are always needed. Check out our [Get Involved](https://docs.beavernotes.com/beaver%20notes%20(dev)/2025/01/03/How-to-contribute.html) page to learn more.  
+*...you might be asking what you can do to help?* Well, there’s a lot, actually! Of course, donations are welcome, but if you are able to code, contributions, feedback, translations, and even help with the docs and blog are always needed. Check out our [Get Involved](https://docs.beavernotes.com/Dev/How-to-contribute/) page to learn more.  
 
 # Thank You 💖  
 
-As always, my thanks go to all our users, contributors, and donors for making Beaver possible, and thanks for being part of this amazing community. Hope you enjoyed the article!  
+As always, my thanks go to all our users, contributors, and donors for making Beaver possible, and thanks for being part of this amazing community. Hope you enjoyed the article!

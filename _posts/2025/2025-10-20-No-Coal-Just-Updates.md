@@ -62,4 +62,4 @@ As always, the final, and most important, paragraph is dedicated to our users, m
 
 We’d like to give a special shoutout to the team at [OpenAlternative](https://bsky.app/profile/openalternative.co) for helping spread the word, and to the team at [OSSing](https://ossign.org/) for supporting us with Windows code signing.
 
-If you’d like to help us make Beaver even better, you’re always welcome to [join us](https://docs.beavernotes.com/beaver%20notes%20%28dev%29/2025/01/03/How-to-contribute.html). Happy holidays from the Beaver Team ❤️!
+If you’d like to help us make Beaver even better, you’re always welcome to [join us](https://docs.beavernotes.com/Dev/How-to-contribute/). Happy holidays from the Beaver Team ❤️!

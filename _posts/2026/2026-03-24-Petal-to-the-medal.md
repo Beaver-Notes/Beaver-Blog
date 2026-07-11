@@ -171,4 +171,4 @@ The first few beta releases may not include a drawing component, as we’re stil
 
 # Thanks to everyone 💖
 
-Lastly, I want to express my deepest gratitude to every user, Beaver exists because of you. Your testing, problem reports, and contributions are what make it possible. If you’d like to get more involved, whether through feedback, documentation, or code, here’s how you can help: **[Get involved](https://docs.beavernotes.com/beaver%20notes%20%28dev%29/2025/01/03/How-to-contribute.html)**. Thank you for being part of this journey!
+Lastly, I want to express my deepest gratitude to every user, Beaver exists because of you. Your testing, problem reports, and contributions are what make it possible. If you’d like to get more involved, whether through feedback, documentation, or code, here’s how you can help: **[Get involved](https://docs.beavernotes.com/Dev/How-to-contribute/)**. Thank you for being part of this journey!

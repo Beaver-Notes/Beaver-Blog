@@ -88,4 +88,4 @@ Beaver wouldn’t be where it is today without the people using it, testing it, 
 
 Beaver exists because people use it, test it, report problems, and contribute improvements. Thanks to everyone who helped move the project forward this year.
 
-If you want to be more involved, whether through feedback, documentation, or code, here’s how to get started: [Get involved](https://docs.beavernotes.com/beaver%20notes%20%28dev%29/2025/01/03/How-to-contribute.html)
+If you want to be more involved, whether through feedback, documentation, or code, here’s how to get started: [Get involved](https://docs.beavernotes.com/Dev/How-to-contribute/)

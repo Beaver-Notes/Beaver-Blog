@@ -144,7 +144,7 @@ Our rollout will begin on **mobile**, where on-device models are available, and 
 
 - **Always opt-in**: Even on supported devices, AI features will be **disabled by default**.
 - **No blanket AI search/organization**: Unlike other apps, we won’t push all your notes into a model. AI will only ever see what _you_ explicitly choose to share.
-- **Fine-grained control**: When you use AI, only the **selected text** is sent — nothing else.
+- **Fine-grained control**: When you use AI, only the **selected text** is sent :  nothing else.
 
 ### 🌍 Flexible Model Options
 
@@ -182,7 +182,7 @@ You can choose which feature you'd like to see first in Beaver Notes, and whatev
    color="border-amber-400"
    bg="bg-amber-400/20"
    content="
-     <p>We’ve got three major upgrades lined up, all happening no matter what — the only question is what should come first:</p>
+     <p>We’ve got three major upgrades lined up, all happening no matter what :  the only question is what should come first:</p>
      <ul>
        <li><a href='#-collaboration'>🤝 Collaboration</a> → real-time editing with Yjs + encrypted sync.</li>
        <li><a href='#-plugins'>🔌 Plugins</a> → build your own editor blocks in Beaver with JavaScript.</li>

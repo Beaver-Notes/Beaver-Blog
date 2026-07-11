@@ -30,8 +30,8 @@ This doesn't impact the user's life much, but it makes my life a bit easier, and
 
 # Thank You 💖
 
-Thanks to all our users, contributors, and donors for making Beaver possible, and thanks for being part of this amazing community. Hope you enjoyed the article. If you’d like to help build and improve the project don’t hesitate to [Get Involved](https://docs.beavernotes.com/beaver%20notes%20(dev)/2025/01/03/How-to-contribute.html)
+Thanks to all our users, contributors, and donors for making Beaver possible, and thanks for being part of this amazing community. Hope you enjoyed the article. If you’d like to help build and improve the project don’t hesitate to [Get Involved](https://docs.beavernotes.com/Dev/How-to-contribute/)
 
 # Credits
 
-[Original cover artwork (CC BY 4.0)](https://www.figma.com/community/file/1067604297402260264/macintosh-128k): credits to [@keeyen](http://keeyen.com/)  
+[Original cover artwork (CC BY 4.0)](https://www.figma.com/community/file/1067604297402260264/macintosh-128k): credits to [@keeyen](http://keeyen.com/)

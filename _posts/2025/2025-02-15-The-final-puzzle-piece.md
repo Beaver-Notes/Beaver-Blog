@@ -13,7 +13,7 @@ excerpt_separator: <!--more-->
 Our plan for world domination is coming together, piece by piece! <!--more--> Beaver Pocket's release candidate is on the horizon, Beaver Notes 3.9.0 is about to launch, and we've made significant improvements to our docs and blog.
 
 <div class="bg-indigo-600 bg-opacity-25 rounded-md mb-4" markdown="span">
-Before we start if love using Beaver and wanna help us improve it. Check out <a href="https://docs.beavernotes.com/beaver%20notes%20(dev)/2025/01/03/How-to-contribute.html">the docs</a> to learn how your involvement in Beaver can make a huge difference.
+Before we start if love using Beaver and wanna help us improve it. Check out <a href="https://docs.beavernotes.com/Dev/How-to-contribute/">the docs</a> to learn how your involvement in Beaver can make a huge difference.
 </div>
 
 # Improving, Fixing, and Debugging
@@ -55,4 +55,3 @@ We’re also going to fork the current [Blog](https://github.com/Beaver-Notes/Bl
 # Thank You 💖
 
 Thanks to all our users, contributors, and donors for making Beaver possible, and thanks for being part of this amazing community. Hope you enjoyed the article! If you’d like to help build and improve the project, don’t hesitate to [Get Involved](https://docs.beavernotes.com/beaver%20notes%20(dev)/2025/01/03/How-to-contribute.html).
-

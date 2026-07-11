@@ -28,9 +28,9 @@
         <input type="text" id="comment-name" placeholder="Your name (optional)"
           class="w-44 flex-none bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
         <input type="email" id="comment-email" placeholder="Email for reply notifications (optional)"
-          class="flex-1 min-w-0 bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 transition-colors" />
+          class="flex-1 min-w-0 bg-white/50 dark:bg-neutral-800/50 outline-none rounded-lg border border-neutral-300 dark:border-neutral-700 focus:border-amber-400 dark:focus:border-amber-600 focus:ring-2 focus:ring-amber-500/20 px-3 py-2 text-sm text-neutral-900 dark:text-neutral-100 transition-colors hidden" />
       </div>
-      <p class="text-xs text-neutral-400 dark:text-neutral-500 -mt-1">Email is never shown publicly. Only used to notify you of replies.</p>
+      <p class="text-xs text-neutral-400 dark:text-neutral-500 -mt-1 hidden">Email is never shown publicly. Only used to notify you of replies.</p>
       <textarea id="comment-input" rows="4"
         class="w-full bg-white/50 dark:bg-neutral-800/50 outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 dark:focus:border-amber-600 rounded-lg border border-neutral-300 dark:border-neutral-700 p-3 text-sm text-neutral-900 dark:text-neutral-100 resize-none transition-colors"
         placeholder="Write a comment…"></textarea>
@@ -86,7 +86,7 @@
     </div>
     <div>
       <label class="block text-xs font-medium text-neutral-500 dark:text-neutral-400 mb-1">
-        Email <span class="font-normal text-neutral-400">(optional — for reply notifications)</span>
+        Email <span class="font-normal text-neutral-400">(optional , for reply notifications)</span>
       </label>
       <input type="email" id="mobile-comment-email" placeholder="Never shown publicly"
         class="w-full bg-neutral-50 dark:bg-neutral-800 outline-none rounded-xl border border-neutral-300 dark:border-neutral-700 px-4 py-3 text-base text-neutral-900 dark:text-neutral-100 focus:ring-2 focus:ring-amber-500/30 focus:border-amber-400 transition-colors" />
@@ -229,7 +229,7 @@
   }
 
   // ---------- Render node ----------
-  // Visual depth cap: beyond depth 1, no more indent — just accent border
+  // Visual depth cap: beyond depth 1, no more indent , just accent border
   // On mobile, threads with 3+ replies start collapsed
   const AUTO_COLLAPSE_THRESHOLD = 3;
 
@@ -243,7 +243,7 @@
     const startCollapsed = repliesCount >= AUTO_COLLAPSE_THRESHOLD;
 
     // Visual nesting: depth 0 = top-level, depth 1+ = reply style
-    // We don't increase indentation past depth 1 — instead replies get a
+    // We don't increase indentation past depth 1 , instead replies get a
     // left-border accent that lightens with depth, keeping content wide on mobile
     const isReply = depth > 0;
     const borderAccent = isReply
@@ -332,7 +332,7 @@
     const tree = buildTree(data);
     document.getElementById("comments-container").innerHTML = tree.length
       ? tree.map((n) => renderNode(n, 0)).join("")
-      : `<p class="text-sm text-neutral-400 dark:text-neutral-500 text-center py-8">No comments yet — be the first!</p>`;
+      : `<p class="text-sm text-neutral-400 dark:text-neutral-500 text-center py-8">No comments yet , be the first!</p>`;
   }
 
   // ---------- Post / Update ----------

@@ -40,7 +40,7 @@ This would be a significant shift for Beaver, so before committing to it we want
 
 # Thanks to everyone 💖
 
-As I often like to remind people, Beaver only exists because users test it, report problems, and contribute improvements. This is why your opinion on the future of the app is crucial. If you want to be more involved, whether through feedback, documentation, or code, here’s how to get started: [Get involved](https://docs.beavernotes.com/beaver%20notes%20%28dev%29/2025/01/03/How-to-contribute.html)
+As I often like to remind people, Beaver only exists because users test it, report problems, and contribute improvements. This is why your opinion on the future of the app is crucial. If you want to be more involved, whether through feedback, documentation, or code, here’s how to get started: [Get involved](https://docs.beavernotes.com/Dev/How-to-contribute/)
 
 # Artwork
 

@@ -10,7 +10,12 @@ module.exports = {
   ],
   theme: {
     theme: {
-      extend: {},
+      extend: {
+        fontFamily: {
+          sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        },
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],
