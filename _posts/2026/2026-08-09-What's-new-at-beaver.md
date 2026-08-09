@@ -19,11 +19,11 @@ Beaver has five plans. Four are available to everyone, and one (Enterprise) is c
 
 - **Free**: the full Beaver Notes, no strings attached.
 - **Starter** ($4/month): 30 days of note history, 10 GB of storage.
-- **Pro**: a full year of history, 50 GB of storage.
-- **Team**: a full year of history, 100 GB of storage plus 25 GB per seat, so your space grows as your team does.
+- **Pro** ($9/month): a full year of history, 50 GB of storage.
+- **Team** ($12/seat/month): a full year of history, 100 GB of storage plus 25 GB per seat, so your space grows as your team does.
 - **Enterprise**: custom history retention and customizable storage, built around your organization's needs.
 
-Every plan, including Free, includes encrypted cloud sync. The difference is infrastructure: on Free, you bring your own cloud. On paid plans, Beavers provides the storage. The engine behind the scenes stays exactly the same either way, so everyone gets the same fair treatment regardless of what they pay.
+Every plan, including Free, includes encrypted cloud sync. The difference is infrastructure: on Free, you bring your own cloud. On paid plans, Beaver provides the storage. The engine behind the scenes stays exactly the same either way, so everyone gets the same fair treatment regardless of what they pay.
 
 That's part of a bigger goal: I want Beaver to grow into a company, but not another large, soulless big tech player. Think of it more as the Steam of the corporate space: built by someone who uses the product, accountable to the people who pay for it, and not chasing growth and profits at the expense of trust.
 
@@ -31,7 +31,7 @@ That's part of a bigger goal: I want Beaver to grow into a company, but not anot
 
 Every plan gets encryption. Your notes, your assets, anything coming from your device is encrypted before it ever leaves. Beaver Sync also goes out of its way to minimize what it knows about you. Passwords and emails are encrypted and anonymized, and so is metadata. The goal is to hold as little data as possible.
 
-The one place where data can't be fully anonymized is payments. For legal reasons, financial records can't be deleted or fully obscured under most regulations, so rather than pretending otherwise, that data is kept isolated and only retained for as long as required
+The one place where data can't be fully anonymized is payments. For legal reasons, financial records can't be deleted or fully obscured under most regulations, so rather than pretending otherwise, that data is kept isolated and only retained for as long as required.
 
 Emails are a good example of how far this has been pushed. Beaver Sync uses a third-party service (Resend) to send transactional email, but Resend never sees your actual address. Instead, the server generates a random string tied to a server-side address; Resend only ever sees that string. The server is the only place that knows which string maps to which real inbox. I want to be upfront that Resend isn't a zero-knowledge provider by design, and there seem to be none in this space, so this redirection is the best way of keeping your real email out of a third party's hands.
 
