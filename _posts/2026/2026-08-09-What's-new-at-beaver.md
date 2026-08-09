@@ -2,7 +2,7 @@
 
 layout: post
 title: "What's new at Beaver"
-date: 2026-08-07
+date: 2026-08-09
 author: "Daniele Rolli"
 github: Daniele-rolli
 label:
