@@ -1,5 +1,4 @@
 ---
-
 layout: post
 title: "What's new at Beaver"
 date: 2026-08-09
